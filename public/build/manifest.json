@@ -1,0 +1,25 @@
+{
+  "resources/css/site.css": {
+    "file": "assets/site-BRUC5ZeF.css",
+    "src": "resources/css/site.css",
+    "isEntry": true,
+    "names": [
+      "site.css"
+    ]
+  },
+  "resources/js/site.js": {
+    "file": "assets/site-l0sNRNKZ.js",
+    "name": "site",
+    "src": "resources/js/site.js",
+    "isEntry": true
+  },
+  "resources/js/slider.js": {
+    "file": "assets/slider-BHgt4sEU.js",
+    "name": "slider",
+    "src": "resources/js/slider.js",
+    "isEntry": true,
+    "css": [
+      "assets/slider-DHBATib1.css"
+    ]
+  }
+}

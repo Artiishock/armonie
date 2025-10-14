@@ -1,0 +1,25 @@
+tree:
+  -
+    id: 0eec2f36-9808-4633-b73a-594da959d48e
+    title: Каталог
+    url: /catalog
+  -
+    id: f8656d8a-18e1-4da3-9e75-fa1d31f4b8dd
+    title: Гражданство
+    url: /services
+  -
+    id: e7fecedb-842c-46b0-b749-204ba4e95208
+    title: 'Открытие фирмы'
+    url: /open_bisnes
+  -
+    id: d1992dca-22db-49a2-8287-d159e21aadf2
+    title: 'Консалтинговые услуги'
+    url: /consalt
+  -
+    id: 238efd9a-50e2-4f17-81cd-58bdd1cc2c8c
+    title: 'О компании'
+    url: about
+  -
+    id: ab8e60e3-49e8-42ca-9dc6-844da636be6b
+    title: Блог
+    url: /contact

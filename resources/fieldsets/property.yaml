@@ -1,0 +1,112 @@
+title: Property
+sections:
+  main:
+    display: Основная информация
+    fields:
+      -
+        handle: title
+        field:
+          type: text
+          display: Заголовок
+          validate: required
+          width: 100
+      -
+        handle: type
+        field:
+          type: select
+          display: Тип сделки
+          options:
+            rent: Аренда
+            buy: Покупка
+          default: rent
+          max_items: 1  # Гарантирует единичное значение
+          
+      -
+        handle: price
+        field:
+          type: integer
+          display: Цена
+          validate: required|integer
+          
+      -
+        handle: address
+        field:
+          type: text
+          display: Адрес
+          validate: required
+          
+      -
+        handle: district
+        field:
+          type: select
+          options:
+            - Mamaia
+            - Constanta
+            - Navodari
+            - Ovidiu
+            - Lumina
+          max_items: 1  # Важно!
+          
+      -
+        handle: floor
+        field:
+          type: integer
+          display: Этаж
+          validate: required|integer
+          
+      -
+        handle: rooms
+        field:
+          type: integer
+          display: Количество комнат
+          validate: required|integer
+        
+      -
+        handle: images
+        field:
+          type: assets
+          display: Изображения
+          container: assets
+          
+        
+     
+         
+      - 
+        handle: lift
+        field:
+          type: select
+          display: Лифт
+          options:
+            есть: Есть
+            нет: Нет
+          default: нет
+          max_items: 1  # Критично важно
+      - 
+        handle: balcony
+        field:
+          type: select
+          display: Балкон
+          options:
+            есть: Есть
+            нет: Нет
+          default: нет  
+          max_items: 1
+      - 
+        handle: bathroom
+        field:
+          type: integer
+          display: Количество санузлов
+          validate: min:1
+      -
+        handle: type_home
+        field:  # Добавлено field:
+          type: select
+         
+          options:
+            квартира: Квартира
+            дом: Дом
+            вилла: Вилла
+          default: квартира
+       
+     
+          required: true

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - Блог Armonie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/contact.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="blog-layout">
+            <main class="blog-main">
+                <h1>{{ title }}</h1>
+                
+                <div class="blog-meta">
+                    <div>
+                        <i class="far fa-calendar"></i>
+                        <span>{{ date format="d.m.Y" }}</span>
+                    </div>
+                </div>
+                
+                {{ logo_blog }}
+                    <div class="blog-image">
+                    <img src="{{ glide:url width="800" height="600" fit="crop_focal" }}" alt="{{ title }}">
+                    </div>
+                {{ /logo_blog}}
+                
+                <div class="blog-content">
+                    {{ blog_text }}
+                </div>
+                               <div class="btn-card">
+                <button onclick="openApplicationModal()" class="btn ">
+                   Заказать консультацию
+                </button>
+             </div>
+            </main>
+           
+            <aside class="blog-sidebar">
+                <div class="sidebar-section">
+                    <h3>Последние статьи</h3>
+                    <ul class="recent-posts">
+                        {{ collection:contact sort="date:desc" limit="5" }}
+                            <li><a href="{{ url }}">{{ title }}</a></li>
+                        {{ /collection:contact }}
+                    </ul>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3>О нас</h3>
+                    <p>Armonie Imobiliare - ваш надежный партнер в вопросах недвижимости, инвестиций и бизнеса в Румынии и Евросоюзе.</p>
+                    <a href="/about" class="tag">Узнать больше</a>
+                </div>
+                               <div class="btn-card">
+                <button onclick="openApplicationModal()" class="btn ">
+                   Заказать консультацию
+                </button>
+             </div>
+            </aside>
+        </div>
+    </div>
+</body>
+</html>

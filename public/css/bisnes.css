@@ -1,0 +1,403 @@
+        :root {
+            --primary: #1c3bfb;
+            --secondary: #d4af37;
+            --accent: #91784a;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --transition: all 0.3s ease;
+            --dark: #000c56;
+            --transition: all 0.3s ease;
+            --shadow: 0 4px 10px rgba(0,0,0,0.1);
+            --shadow-hover: 0 6px 15px rgba(0,0,0,0.2);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            /* font-family: 'Montserrat', sans-serif; */
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+            scroll-behavior: smooth;
+        }
+        
+        .container {
+
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            color: white;
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        /* Hero Section */
+      .header-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(rgba(0, 11, 86, 0.445), rgba(0, 11, 86, 0.541)), 
+                        url('/assets/bisnes.jpg') no-repeat   ;
+            background-size: cover;
+            background-position: contain;
+            padding: 5rem 0;
+            color: white;
+            text-align: center;
+            margin-top: 80px !important;
+            margin-bottom: 0rem;
+            width: 100%;
+            background-repeat: no-repeat !important;
+        }
+        
+        .hero-section h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        
+        .hero-section p {
+            font-size: 1.3rem;
+
+
+        }
+        
+        
+        /* Content Sections */
+        .content-section {
+            background: white;
+            border-radius: 15px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 3rem 0;
+        }
+        
+        .media-container {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .media-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .info-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .info-content li{
+            font-size: 1.3rem;
+        }
+        
+        .flag-content {
+            display: flex;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .flag-img {
+            flex: 0 0 40%;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: fit-content;
+            margin-top: 20%;
+        }
+        
+        .flag-img img {
+            width: 100%;
+            
+            display: block;
+        }
+        
+        .flag-text {
+            flex: 0 0 60%;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            margin-top: 2.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--secondary);
+            display: inline-block;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            color: var(--dark);
+            margin-top: 2rem;
+        }
+        
+        h4{
+            font-size: 1.4rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            font-size: 1.3rem;
+        }
+        
+        li:before {
+            content: "•";
+            color: var(--secondary);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        /* Highlighted sections */
+        .highlight {
+            background: linear-gradient(120deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0) 100%);
+            border-left: 4px solid var(--secondary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .step-block {
+            background-color: rgba(0, 12, 86, 0.05);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 3px solid var(--dark);
+        }
+        
+        .step-block h4 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+        
+        /* Advantages list */
+        .advantages {
+            margin: 2rem 0;
+        }
+        
+        .advantages li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+        
+        .advantages li:before {
+            content: "✓";
+            color: var(--secondary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 1.2rem;
+        }
+        
+        /* Process list */
+        .process-list {
+            counter-reset: step-counter;
+            margin: 2rem 0;
+        }
+        
+        .process-list li {
+            margin-bottom: 1.5rem;
+            padding-left: 3rem;
+            position: relative;
+            list-style-type: none;
+        }
+        
+        .process-list li:before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: var(--secondary);
+            color: var(--dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        /* Button */
+        /* .btn {
+            display: inline-block;
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            border: 2px solid var(--secondary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin: 1.5rem 0;
+        }
+        
+        .btn:hover {
+            background: transparent;
+            color: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        } */
+
+        
+        /* Responsive */
+
+        @media (max-width: 1100px) {
+        .hero-section {
+            object-fit: contain ;
+            background-repeat: no-repeat;
+        }
+        }
+
+
+        @media (max-width: 992px) {
+            .hero-section h1 {
+                font-size: 2.8rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .flag-content {
+                flex-direction: column;
+            }
+            
+            .flag-img, .flag-text {
+                flex: 1 1 100%;
+            }
+            
+            .hero-section {
+                padding: 3rem 0;
+            }
+            
+            .hero-section h1 {
+                font-size: 2.3rem;
+            }
+            
+            .content-section {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-section  {
+                margin-top: 25vw !important;
+            }
+
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-section p {
+                font-size: 1.1rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            h3 {
+                font-size: 1.5rem;
+            }
+            
+            .content-section {
+                padding: 1.5rem;
+            }
+            
+            .process-list li {
+                padding-left: 2.5rem;
+            }
+            
+            .process-list li:before {
+                width: 1.8rem;
+                height: 1.8rem;
+                font-size: 1rem;
+            }
+        }
+
+         @media (max-width: 350px) {
+             .hero-section  {
+                margin-top: 35vw !important;
+            }
+         }

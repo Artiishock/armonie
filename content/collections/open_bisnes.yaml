@@ -1,0 +1,6 @@
+title: open_bisnes
+template: open_bisnes/show
+revisions: false
+date_behavior:
+  past: public
+  future: private

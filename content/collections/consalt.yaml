@@ -1,0 +1,6 @@
+title: consalt
+template: consalt/show
+revisions: false
+date_behavior:
+  past: public
+  future: private
