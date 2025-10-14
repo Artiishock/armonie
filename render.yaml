@@ -1,15 +1,6 @@
 services:
   - type: web
     name: statamic-site
-    env: php
     plan: free
-    buildCommand: |
-      composer install --no-dev --optimize-autoloader
-      php artisan config:cache
-      php artisan route:cache
-    startCommand: php -S 0.0.0.0:$PORT -t public
-    envVars:
-      - key: APP_ENV
-        value: production
-      - key: APP_DEBUG
-        value: false
+    docker:
+      dockerfilePath: Dockerfile
