@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новости - Armonie Imobiliare</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/contact.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <div class="page-header">
+            <h1>Новости и статьи</h1>
+            <p>Актуальная информация о недвижимости, инвестициях и жизни в Евросоюзе от экспертов Armonie</p>
+        </div>
+
+        <div class="news-grid">
+            {{ collection:contact limit="10" sort="date:desc" }}
+            <div class="news-card">
+                {{ logo_blog }}
+                    <div class="blog-image">
+                    <img src="{{ glide:url width="800" height="600" fit="crop_focal" }}" alt="{{ title }}">
+                    </div>
+                {{ /logo_blog}}
+                <div class="news-content">
+                    <div class="news-date">
+                        <i class="far fa-calendar"></i> {{ date format="d.m.Y" }}
+                    </div>
+                    <h3 class="news-title">{{ title }}</h3>
+                    <p class="news-excerpt">
+                        {{ if blog_text }}
+                            {{ blog_text | strip_tags | safe_truncate:120:... }}
+                        {{ else }}
+                            Узнайте больше о наших услугах и последних новостях на рынке недвижимости Румынии.
+                        {{ /if }}
+                    </p>
+                    <a href="{{ url }}" class="news-btn">Подробнее</a>
+                </div>
+            </div>
+            {{ /collection:contact }}
+        </div>
+    </div>
+</body>
+</html>

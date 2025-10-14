@@ -1,0 +1,167 @@
+title: Property
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              display: Title
+              validate:
+                - required
+          -
+            handle: type
+            field:
+              options:
+                -
+                  key: rent
+                  value: null
+                -
+                  key: buy
+                  value: null
+              type: select
+              display: Type
+          -
+            handle: price
+            field:
+              type: integer
+              display: Price
+          -
+            handle: address
+            field:
+              type: text
+              display: Address
+          -
+            handle: floor
+            field:
+              type: integer
+              display: Floor
+          -
+            handle: rooms
+            field:
+              type: integer
+              display: Rooms
+          -
+            handle: images
+            field:
+              container: assets
+              type: assets
+              display: images
+              max_files: 1
+          -
+            handle: district
+            field:
+              options:
+                -
+                  key: Mamaia
+                  value: null
+                -
+                  key: Constanta
+                  value: null
+                -
+                  key: Navodari
+                  value: null
+                -
+                  key: Ovidiu
+                  value: null
+                -
+                  key: Lumina
+                  value: null
+              type: select
+              display: District
+          -
+            handle: date_use
+            field:
+              type: text
+              display: 'date use'
+          -
+            handle: bathroom
+            field:
+              type: text
+              display: bathroom
+          -
+            handle: apartment_area
+            field:
+              type: float
+              display: 'apartment area'
+          -
+            handle: type_home
+            field:
+              options:
+                -
+                  key: Квартира
+                  value: null
+                -
+                  key: Дом
+                  value: null
+                -
+                  key: Вилла
+                  value: null
+              type: select
+              display: 'Type Home'
+          -
+            handle: lift
+            field:
+              options:
+                -
+                  key: есть
+                  value: null
+                -
+                  key: нет
+                  value: null
+              type: select
+              display: lift
+          -
+            handle: balcony
+            field:
+              options:
+                -
+                  key: есть
+                  value: null
+                -
+                  key: нет
+                  value: null
+              type: select
+              display: balcony
+          -
+            handle: nearbu
+            field:
+              type: text
+              display: nearbu
+          -
+            handle: description
+            field:
+              type: text
+              display: description
+          -
+            handle: has_lift
+            field:
+              type: toggle
+              display: has_lift
+          -
+            handle: has_balcony
+            field:
+              type: toggle
+              display: 'has_ balcony'
+          -
+            handle: assets_array
+            field:
+              max_files: 20
+              container: assets
+              type: assets
+              display: Assets-array
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate: 'max:200'

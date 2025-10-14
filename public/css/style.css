@@ -1,0 +1,736 @@
+ .real-estate-section {
+    width: 100%;
+    padding: 0 20px;
+    margin-top: 100px;
+    margin-bottom: 80px;
+  }
+  
+  .filtering-panel {
+    background-color: #e7e3d8;
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    border-radius: 50px;
+
+  }
+  
+  .switch-container {
+    display: flex;
+    position: relative;
+    background: #000000ac;
+    border-radius: 50px;
+    padding: 5px;
+    margin-bottom: -80px;
+  }
+  
+  .switch-button {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 16px;
+    color: #b9b4b4;
+    position: relative;
+    z-index: 1;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+  }
+  
+  .switch-button.active {
+    color: #fff;
+    width:  fit-content;
+  }
+  
+  .switch-indicator {
+    position: absolute;
+    height: calc(100% - 10px);
+    background: #1d3bfb;
+    border-radius: 50px;
+    top: 5px;
+    left: 5px;
+    transition: all 0.3s ease;
+  }
+  
+  .advanced-filtering {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    background: #e7e3d8;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    padding: 30px;
+    padding-top: 100px;
+  }
+  .filter_cont{
+    display: flex;
+    flex-direction: column;
+  }
+  .filter-block {
+    margin-bottom: 20px;
+  }
+  
+  .filter-block label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+  }
+
+  .price-fields {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .price-fields input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+  
+  .price-fields span {
+    color: #777;
+  }
+  
+  .range-control {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px;
+  }
+  
+  .range-control input[type="range"] {
+    width: 100%;
+    height: 5px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    outline: none;
+  }
+  
+  .option-group {
+    display: flex;
+    flex-wrap: wrap;
+    width: 315px;
+    align-content: center ;
+    justify-content: space-around;
+ 
+  }
+  
+  .option-item {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding-right: 20px ;
+    width: 126px;
+
+  }
+  
+  .option-item input {
+    margin-right: 8px;
+  }
+  
+  .option-item span {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .area-search input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 15px;
+  }
+
+  
+  .scroll-list {
+    display: flex;
+    
+    max-height: 200px;
+    /* overflow-y: auto; */
+    padding-right: 10px;
+  }
+  
+  .floor-selection, .area-selection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+  
+  .floor-selection > div, .area-selection > div {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .floor-selection input, .area-selection input {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+  
+  .filter-controls {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    grid-column: 1 / -1;
+  }
+  
+  .control-button {
+    flex: 1;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .main-button {
+    background: #333;
+    color: white;
+  }
+  
+  .main-button:hover {
+    background: #555;
+  }
+  
+  .alt-button {
+    background: #f5f5f5;
+    color: #333;
+  }
+  
+  .alt-button:hover {
+    background: #e0e0e0;
+  }
+  
+  .real-estate-grid.full-width-listings {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 100%;
+    padding: 0;
+  }
+  
+  .listing-card {
+    display: flex;
+    width: 100%;
+    height: 41svw;
+
+    border: 1px solid #e0dfdf;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #c1a9681b;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.272);
+    transition: transform 0.3s ease;
+  }
+  
+  .listing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  
+  .listing-image-wraper {
+    /* flex: 0 0 50%; */
+    position: relative;
+        height: 95vh !important; /* Изменено с 400px на 100% */
+    width: 35vw; /* Изменено с 600px на 100% */
+    margin-left: 5vw;
+    display: flex;
+
+  }
+  
+.slide{
+  width: 31vw;
+  height: 52vw; /* Для адаптивной высоты */
+  aspect-ratio: 1 / 1; /* Фиксированное соотношение (например, квадрат) */
+  display: flex;
+  justify-content: center;
+  align-items: top;
+ 
+}
+
+.slide img{
+    width: 31vw !important;
+    height: 41vw !important;
+  border-radius: 50px !important;
+  /* object-fit: contain; Сохраняет пропорции, вписывая изображение целиком    */
+
+}
+
+.listing-description{
+  /* width: 55vw; */
+  height:90%;
+  font-size: 1rem;
+  overflow: scroll;
+}
+
+.full-width{
+  width: 230% !important;
+  height:  15vw !important;
+}
+
+  .listing-photo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:31vw;
+    height: fit-content !important;
+    background: #f5f5f5;
+    box-sizing: content-box;
+  }
+  
+
+  
+  .listing-card:hover .listing-photo img {
+    transform: scale(1.03);
+  }
+  
+  .listing-type {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: #1d3bfb;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 16px;
+    z-index: 1;
+  }
+  
+  .listing-details-wrap {
+    flex: 0 0 50%;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    height: 60%;
+  }
+  
+  .listing-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .listing-title {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+    max-width: 70%;
+  }
+  
+  .listing-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .listing-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    flex-grow: 1;
+  }
+  
+
+  
+  .info-block h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .listing-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    font-size: 15px;
+    color: #555;
+  }
+  
+  .listing-amenities {
+    display: grid;
+    gap: 10px;
+    font-size: 15px;
+    color: #555;
+  }
+  
+  .feature-icon {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background: #c1a968;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 22px;
+    margin-right: 8px;
+  }
+  
+  .nearby-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .nearby-label {
+    background: #f0f0f0;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+  }
+  
+  .listing-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+  }
+  
+  .action-button {
+    padding: 12px 30px;
+    background: #1d3bfb ;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+  }
+  
+  .action-button:hover {
+    background: #c1a968 ;
+  }
+  
+  .details-link {
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 2px solid #333;
+    padding-bottom: 3px;
+    transition: all 0.3s ease;
+  }
+  
+  .details-link:hover {
+    color: #555;
+    border-bottom-color: #555;
+  }
+  
+  /* Адаптивность */
+@media (max-width: 1600px) {
+  .listing-header{
+    margin-bottom: 0px !important;
+  }
+
+  .listing-info-grid{
+    width: 190%;
+  }
+
+  .listing-features{
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .full-width{
+  width: 120% !important;
+
+}
+}
+
+@media (max-width: 1100px) {
+ .real-estate-section {
+
+
+    margin-top: 130px;
+
+  }
+}
+
+
+@media (max-width: 1060px) {
+  .advanced-filtering{
+    grid-row: 1/2;
+  }
+  .column_blok{
+    flex-direction: column;
+  }
+}
+@media (max-width: 1350px) {
+  .listing-card{
+    flex-direction: column;
+    height: fit-content;
+  }
+
+  .listing-image-wraper {
+    height: 65vh !important;
+    width: 100%;
+
+    margin-left: 0  !important;
+    box-sizing: content-box;
+  }
+
+  .listing-photo{
+    width: 100%;
+  }
+
+.slide{
+  width: 100%;
+  height: 70vh;
+  display: flex;
+      justify-content: center !important;
+    align-items: center !important;
+}
+
+.slide img{
+  min-width: fit-content !important;
+  width: auto;
+  height: 100%;
+
+}
+  .listing-details-wrap{
+    margin-top: 5vw;
+    width: 90%;
+  }
+
+  .listing-photo img{
+       object-position: 50% 50% !important;
+  }
+}
+
+
+  @media (max-width: 992px) {
+    .listing-card {
+
+      min-height: auto;
+    }
+    
+    .listing-image-wrap {
+      flex: 0 0 300px;
+    }
+    
+    .info-block{
+      
+    }
+
+  }
+  
+  @media (max-width: 768px) {
+    .listing-header {
+      flex-direction: column;
+    }
+    
+    .listing-title {
+      max-width: 100%;
+      margin-bottom: 15px;
+    }
+    
+    .listing-features {
+      grid-template-columns: 1fr;
+    }
+    
+    .listing-actions {
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .action-button {
+      width: 100%;
+    }
+    
+    .filter-controls {
+      flex-direction: column;
+    }
+  }
+
+@media (max-width: 400px) {
+  .filter-controls{
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+  .column_blok{
+    display: flex;
+   gap: 40px;
+   
+  }
+
+  .inp{
+  width: 150px;  
+  }
+
+    /* Общие стили для ползунков */
+  input[type="range"] {
+    border: 0px !important;
+    height: 6px;
+    background: transparent;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  /* Стили для трека (дорожки) */
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    background: #1d3bfb;
+    border-radius: 3px;
+  }
+
+  input[type="range"]::-moz-range-track {
+    height: 6px;
+    background: #e0e0e0;
+    border-radius: 3px;
+  }
+
+  /* Стили для бегунка (ползунка) */
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #c1a968; /* Основной цвет бегунка */
+    border-radius: 50%;
+    border: 2px solid #8c7a4a;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    cursor: pointer;
+    margin-top: -6px; /* Центрирование по вертикали */
+    transition: all 0.2s ease;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: #333; /* Основной цвет бегунка */
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  /* Стили при наведении и фокусе */
+  input[type="range"]:hover::-webkit-slider-thumb,
+  input[type="range"]:focus::-webkit-slider-thumb {
+    background: #8c7a4a;
+    transform: scale(1.1);
+  }
+
+  input[type="range"]:hover::-moz-range-thumb,
+  input[type="range"]:focus::-moz-range-thumb {
+    background: #555;
+    transform: scale(1.1);
+  }
+
+  /* Цвет заполненной части трека */
+  input[type="range"]::-webkit-slider-container {
+    background: linear-gradient(to right, #4CAF50 0%, #4CAF50 var(--fill-percent), #e0e0e0 var(--fill-percent), #e0e0e0 100%);
+    border-radius: 3px;
+
+  }
+
+  /* Для Firefox */
+  input[type="range"]::-moz-range-progress {
+    background: #4CAF50; /* Цвет заполненной части */
+    height: 6px;
+    border-radius: 3px;
+  }
+
+ .option-item input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Создаем кастомный чекбокс */
+  .option-item .checkmark {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #f0f0f0;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    margin-right: 8px;
+    vertical-align: middle;
+    transition: all 0.2s ease;
+  }
+  
+  /* Стиль при наведении */
+  .option-item:hover input ~ .checkmark {
+    border-color: #aaa;
+    background-color: #e5e5e5;
+  }
+  
+  /* Стиль при выборе */
+  .option-item input:checked ~ .checkmark {
+    background-color: #1d3bfb; /* Основной цвет фона */
+    border-color: #8c7a4a;
+  }
+  
+  /* Создаем галочку (скрытую по умолчанию) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  
+  /* Показываем галочку при выборе */
+  .option-item input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Анимация галочки */
+  .option-item input:checked ~ .checkmark:after {
+    animation: checkmark 0.2s ease;
+  }
+  
+  @keyframes checkmark {
+    from {
+      height: 0;
+      opacity: 0;
+    }
+    to {
+      height: 10px;
+      opacity: 1;
+    }
+  }
+  
+  /* Текст чекбокса */
+  .option-item span {
+    vertical-align: middle;
+    font-size: 15px;
+    color: #555;
+    transition: color 0.2s ease;
+  }
+  
+  /* Изменение цвета текста при выборе */
+  .option-item input:checked ~ span {
+    color: #333;
+    font-weight: 500;
+  }
+
+
+  

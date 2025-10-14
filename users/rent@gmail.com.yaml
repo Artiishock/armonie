@@ -1,0 +1,7 @@
+super: true
+id: 8234bc4c-987c-4e2b-a36e-40af4b5aea36
+password_hash: $2y$12$xvUDkqAeqm/crdUr4rvL7e2hKwXOkld.7KoFPuhX1up2UXTIn3zx.
+preferences:
+  assets:
+    assets:
+      mode: grid

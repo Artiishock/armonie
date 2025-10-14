@@ -1,0 +1,45 @@
+title: blok
+tabs:
+  main:
+    display: Main
+    sections:
+      -
+        fields:
+          -
+            handle: title
+            field:
+              type: text
+              required: true
+              display: Title_blog
+              validate:
+                - required
+          -
+            handle: logo_blog
+            field:
+              container: assets
+              type: assets
+              display: logo_blog
+          -
+            handle: blog_text
+            field:
+              type: textarea
+              display: blog_text
+  sidebar:
+    display: Sidebar
+    sections:
+      -
+        fields:
+          -
+            handle: slug
+            field:
+              type: slug
+              localizable: true
+              validate: 'max:200'
+          -
+            handle: date
+            field:
+              type: date
+              required: true
+              default: now
+              validate:
+                - required

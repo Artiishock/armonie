@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Каталог недвижимости </title>
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Link Swiper's CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+ <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+</head>
+<body>
+  <section class="real-estate-section">
+    <div class="filtering-panel">
+      <div class="switch-container" id="switchContainer">
+        <button class="switch-button active" data-type="all">Все</button>
+        <button class="switch-button" data-type="rent">Аренда</button>
+        <button class="switch-button" data-type="buy">Покупка</button>
+        <div class="switch-indicator"></div>
+      </div>
+
+      <div class="advanced-filtering">
+        <!-- Фильтр по цене -->
+        <div class="filter-block">
+          <label for="price-range">Цена, €</label>
+          <div class="price-fields">
+            <input type="number" id="price-min" placeholder="От" min="0">
+            <input type="range" id="price-range-min" min="0" max="10000" step="100" value="0">
+          </div>
+          <div class="price-fields">
+            <input class="select" type="number" id="price-max" placeholder="До" min="0">
+            <input class="select" type="range" id="price-range-max" min="0" max="500000" step="100" value="10000">
+          </div>
+        </div>
+
+        <!-- Фильтр по количеству комнат -->
+        <div class="filter_cont">
+          <div class="filter-block">
+            <label>Количество комнат</label>
+            <div class="option-group">
+              <label class="option-item">
+                <input type="checkbox" name="rooms" value="1" checked>
+                <span class="checkmark"></span>
+                <span>1</span>
+              </label>
+              <label class="option-item">
+                <input type="checkbox" name="rooms" value="2" checked>
+                <span class="checkmark"></span>
+                <span>2</span>
+              </label>
+              <label class="option-item">
+                <input type="checkbox" name="rooms" value="3" checked>
+                <span class="checkmark"></span>
+                <span>3</span>
+              </label>
+              <label class="option-item">
+                <input type="checkbox" name="rooms" value="4+" checked>
+                <span class="checkmark"></span>
+                <span>4+</span>
+              </label>
+            </div>
+          </div>
+          <div class="filter-block">
+            <label>Тип недвижимости</label>
+            <div class="option-group">
+              <label class="option-item">
+                <input type="checkbox" name="type_home" value="квартира" checked>
+                <span class="checkmark"></span>
+                <span>Квартира</span>
+              </label>
+              <label class="option-item">
+                <input type="checkbox" name="type_home" value="дом" checked>
+                <span class="checkmark"></span>
+                <span>Дом</span>
+              </label>
+              <label class="option-item">
+                <input type="checkbox" name="type_home" value="вилла" checked>
+                <span class="checkmark"></span>
+                <span>Вилла</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="filter-block">
+          <label>Удобства</label>
+          <div class="option-group">
+            <label class="option-item">
+              <input type="checkbox" name="amenities" value="lift" checked>
+              <span class="checkmark"></span>
+              <span>Лифт</span>
+            </label>
+            <label class="option-item">
+              <input type="checkbox" name="amenities" value="balcony" checked>
+              <span class="checkmark"></span>
+              <span>Балкон</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Фильтр по этажности -->
+        <div class="column_blok">
+          <div class="filter-block">
+            <label>Этаж</label>
+            <div class="floor-selection">
+              <div>
+                <label>От</label>
+                <input class="inp" type="number" id="floor-min" min="0" value="0">
+              </div>
+              <div>
+                <label>До</label>
+                <input class="inp" type="number" id="floor-max" min="0" value="20">
+              </div>
+            </div>
+          </div>
+
+          <!-- Фильтр по площади -->
+          <div class="filter-block">
+            <label>Площадь, м²</label>
+            <div class="area-selection">
+              <div>
+                <label>От</label>
+                <input class="inp" type="number" id="area-min" min="0" value="0">
+              </div>
+              <div>
+                <label>До</label>
+                <input class="inp" type="number" id="area-max" min="0" value="200">
+              </div>
+            </div>
+          </div>
+          
+          <!-- Фильтр по районам -->
+          <div class="filter-block">
+            <label>Район</label>
+            <div class="area-search" id="district-search">
+             
+            </div>
+            <div class="option-group scroll-list">
+              <!-- Динамически заполнится из JavaScript -->
+            </div>
+          </div>
+        </div>
+        
+        <!-- Кнопки управления фильтрами -->
+        <div class="filter-controls">
+          <button id="apply-filters" class="control-button main-button">Применить фильтры</button>
+          <button id="reset-filters" class="control-button alt-button">Сбросить всё</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="real-estate-grid full-width-listings">
+      {{ collection:properties }}
+      <div class="listing-card" 
+           data-type="{{ type }}"
+           data-price="{{ price }}"
+           data-district="{{ district }}"
+           data-rooms="{{ rooms }}"
+           data-floor="{{ floor }}"
+           data-area="{{ apartment_area }}"
+           data-type-home="{{ type_home }}"
+           data-lift="{{ has_lift ? 'yes' : 'no' }}"  
+           data-balcony="{{ has_balcony ? 'yes' : 'no' }}"
+           data-nearbu="{{ nearbu }}"
+           data-description="{{ description }}">
+        <!-- ффф -->
+        <!-- Блок с изображениями (слайдер) -->
+        <div class="listing-image-wraper">
+          <div class="listing-photo slider-container">
+            <div class="slider">
+              <!-- Главное изображение -->
+               <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                {{  images }}
+                  <div class="slide">
+                    <img src="{{ glide:url  }}" alt="{{ title }}">
+                  </div>
+                {{ /images}}
+              </div>   
+              <!-- Остальные изображения из Assets-array -->
+              
+                {{ assets_array }}
+                  <div class="swiper-slide">
+                     <div class="slide">
+                        <img src="{{ glide:url  }}" alt="{{ title }}">
+                      </div>
+                  </div>
+                {{ /assets_array }}
+             
+            </div>
+            <div class="listing-type">{{ type == 'rent' ? 'Аренда' : 'Покупка' }}</div>
+    </div>
+    
+  </div>
+
+            
+
+          </div>
+        </div>
+        
+        <div class="listing-details-wrap">
+          <div class="listing-header">
+            <h3 class="listing-title">{{ title }}</h3>
+            <div class="listing-price">
+              {{ price }} {{ type == 'rent' ? '€/мес' : '€' }}
+            </div>
+          </div>
+          
+          <div class="listing-info-grid">
+            <div class="info-block">
+              <h4>Основные характеристики</h4>
+              <div class="listing-features">
+                <div><strong>Район:</strong> {{ district }}</div>
+                <div><strong>Адрес:</strong> {{ address }}</div>
+                <div><strong>Тип:</strong> {{ type_home }}</div>
+                <div><strong>Этаж:</strong> {{ floor }}</div>
+                <div><strong>Комнат:</strong> {{ rooms }}</div>
+                <div><strong>Площадь:</strong> {{ apartment_area }} м²</div>
+                <div><strong>Дата сдачи:</strong> {{ date_use }}</div>
+                <div><strong>Рядом:</strong> {{ nearbu }}</div>
+              </div>
+            </div>
+            
+            <div class="info-block">
+              <h4>Особенности</h4>
+              <div class="listing-amenities">
+                {{ if has_lift }}<div><span class="feature-icon">✓</span> Лифт</div>{{ /if }}
+                {{ if has_balcony }}<div><span class="feature-icon">✓</span> Балкон</div>{{ /if }}
+                <div><span class="feature-icon">✓</span> Санузлов: {{ bathroom }}</div>
+              </div>
+            </div>
+            
+            <div class="info-block full-width">
+              <h4>Описание</h4>
+              <div class="listing-description">
+                {{ description }}
+              </div>
+            </div>
+          </div>
+          
+          <div class="listing-actions">
+            <button class="action-button" onclick="openApplicationModal({
+            id: '{{ id }}',
+            title: '{{ title }}',
+            price: '{{ price }}',
+            type: '{{ type }}' })">Оставить заявку</button>
+          </div>
+        </div>
+      </div>
+      {{ /collection:properties }}
+    </div>
+  </section>
+ <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Элементы фильтра
+      const switchContainer = document.getElementById('switchContainer');
+      if (!switchContainer) return;
+      
+      const switchButtons = switchContainer.querySelectorAll('.switch-button');
+      const indicator = switchContainer.querySelector('.switch-indicator');
+      const applyBtn = document.getElementById('apply-filters');
+      const resetBtn = document.getElementById('reset-filters');
+      
+      // Обновление индикатора активной кнопки
+      function updateIndicator(activeButton) {
+        const buttonRect = activeButton.getBoundingClientRect();
+        const containerRect = switchContainer.getBoundingClientRect();
+        
+        indicator.style.width = `${buttonRect.width}px`;
+        indicator.style.left = `${buttonRect.left - containerRect.left}px`;
+      }
+      
+      // Инициализация индикатора
+      switchButtons.forEach(btn => {
+        if(btn.classList.contains('active')) updateIndicator(btn);
+        
+        btn.addEventListener('click', function() {
+          switchButtons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          updateIndicator(this);
+        });
+      });
+      
+      // Сбор всех возможных районов из карточек недвижимости
+      function initDistrictFilter() {
+        const districts = new Set();
+        const districtContainer = document.querySelector('.option-group.scroll-list');
+        if (!districtContainer) return;
+        
+        // Собираем уникальные районы
+        document.querySelectorAll('.listing-card').forEach(card => {
+          const district = card.dataset.district;
+          if (district && district.trim() !== '') districts.add(district);
+        });
+        
+        // Создаем элементы для каждого района
+        districtContainer.innerHTML = '';
+        districts.forEach(district => {
+          const option = document.createElement('label');
+          option.className = 'option-item';
+          option.innerHTML = `
+            <input type="checkbox" name="districts" value="${district}" checked>
+            <span class="checkmark"></span>
+            <span>${district}</span>
+          `;
+          districtContainer.appendChild(option);
+        });
+      }
+      
+      // Поиск районов
+      const districtSearchInput = document.querySelector('.area-search input');
+      if (districtSearchInput) {
+        districtSearchInput.addEventListener('input', function(e) {
+          const searchTerm = e.target.value.toLowerCase();
+          const options = document.querySelectorAll('.option-group.scroll-list .option-item');
+          
+          options.forEach(option => {
+            const district = option.querySelector('span:last-child').textContent.toLowerCase();
+            option.style.display = district.includes(searchTerm) ? 'flex' : 'none';
+          });
+        });
+      }
+      
+      // Связь полей ввода цены и слайдеров
+      const priceMinInput = document.getElementById('price-min');
+      const priceMaxInput = document.getElementById('price-max');
+      const priceRangeMin = document.getElementById('price-range-min');
+      const priceRangeMax = document.getElementById('price-range-max');
+      
+      if (priceMinInput && priceRangeMin) {
+        // Обновление полей ввода при изменении слайдеров
+        priceRangeMin.addEventListener('input', () => {
+          priceMinInput.value = priceRangeMin.value;
+        });
+        
+        // Обновление слайдеров при изменении полей ввода
+        priceMinInput.addEventListener('input', () => {
+          priceRangeMin.value = priceMinInput.value || 0;
+        });
+      }
+      
+      if (priceMaxInput && priceRangeMax) {
+        priceRangeMax.addEventListener('input', () => {
+          priceMaxInput.value = priceRangeMax.value;
+        });
+        
+        priceMaxInput.addEventListener('input', () => {
+          priceRangeMax.value = priceMaxInput.value || 100000;
+        });
+      }
+      
+      // Применение фильтров
+      if (applyBtn) {
+        applyBtn.addEventListener('click', applyFilters);
+      }
+      
+      // Сброс фильтров
+      if (resetBtn) {
+        resetBtn.addEventListener('click', resetFilters);
+      }
+      
+      // Функция применения фильтров
+      function applyFilters() {
+        const activeType = document.querySelector('.switch-button.active')?.dataset.type || 'all';
+        const minPrice = parseInt(priceMinInput?.value) || 0;
+        const maxPrice = parseInt(priceMaxInput?.value) || Infinity;
+        const minFloor = parseInt(document.getElementById('floor-min')?.value) || 0;
+        const maxFloor = parseInt(document.getElementById('floor-max')?.value) || Infinity;
+        const minArea = parseInt(document.getElementById('area-min')?.value) || 0;
+        const maxArea = parseInt(document.getElementById('area-max')?.value) || Infinity;
+        
+        // Получение выбранных опций
+        const selectedRooms = Array.from(document.querySelectorAll('input[name="rooms"]:checked'))
+          .map(input => input.value);
+        
+        const selectedDistricts = Array.from(document.querySelectorAll('input[name="districts"]:checked'))
+          .map(input => input.value);
+        
+        const selectedAmenities = Array.from(document.querySelectorAll('input[name="amenities"]:checked'))
+          .map(input => input.value);
+        
+        // Тип недвижимости
+        const selectedTypeHomes = Array.from(document.querySelectorAll('input[name="type_home"]:checked'))
+          .map(input => input.value);
+        
+        // Фильтрация карточек
+        document.querySelectorAll('.listing-card').forEach(card => {
+          const type = card.dataset.type;
+          const price = parseInt(card.dataset.price) || 0;
+          const district = card.dataset.district || '';
+          const rooms = card.dataset.rooms || '';
+          const floor = parseInt(card.dataset.floor) || 0;
+          const area = parseInt(card.dataset.area) || 0;
+          const typeHome = card.dataset.typeHome || '';
+          
+          // Проверка условий
+          const typeMatch = activeType === 'all' || type === activeType;
+          const priceMatch = price >= minPrice && price <= maxPrice;
+          const districtMatch = selectedDistricts.length === 0 || selectedDistricts.includes(district);
+          
+          // Проверка комнат (с учетом 4+)
+          const roomsMatch = selectedRooms.length === 0 || 
+                            selectedRooms.some(option => {
+                              if (option === "4+") return parseInt(rooms) >= 4;
+                              return option === rooms;
+                            });
+          
+          const floorMatch = floor >= minFloor && floor <= maxFloor;
+          const areaMatch = area >= minArea && area <= maxArea;
+          
+          // Проверка удобств
+          const amenitiesMatch = selectedAmenities.length === 0 || 
+                                selectedAmenities.every(amenity => {
+                                  return card.dataset[amenity] === 'yes';
+                                });
+          
+          // Проверка типа недвижимости
+          const typeHomeMatch = selectedTypeHomes.length === 0 || 
+                                selectedTypeHomes.includes(typeHome.toLowerCase());
+          
+          // Показать/скрыть карточку
+          card.style.display = typeMatch && priceMatch && districtMatch && 
+                              roomsMatch && floorMatch && areaMatch && 
+                              amenitiesMatch && typeHomeMatch ? 
+                              'flex' : 'none';
+        });
+      }
+      
+      // Функция сброса фильтров
+      function resetFilters() {
+        // Сброс переключателя типа
+        if (switchButtons[0]) {
+          switchButtons.forEach(b => b.classList.remove('active'));
+          switchButtons[0].classList.add('active');
+          updateIndicator(switchButtons[0]);
+        }
+        
+        // Сброс полей цены
+        if (priceMinInput) priceMinInput.value = '';
+        if (priceMaxInput) priceMaxInput.value = '';
+        if (priceRangeMin) priceRangeMin.value = 0;
+        if (priceRangeMax) priceRangeMax.value = 100000;
+        
+        // Сброс чекбоксов
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+          checkbox.checked = true;
+        });
+        
+        // Сброс полей этажа и площади
+        if (document.getElementById('floor-min')) document.getElementById('floor-min').value = 0;
+        if (document.getElementById('floor-max')) document.getElementById('floor-max').value = 20;
+        if (document.getElementById('area-min')) document.getElementById('area-min').value = 0;
+        if (document.getElementById('area-max')) document.getElementById('area-max').value = 200;
+        
+        // Показать все карточки
+        document.querySelectorAll('.listing-card').forEach(card => {
+          card.style.display = 'flex';
+        });
+        
+        // Сброс поиска районов
+        const districtSearchInput = document.querySelector('.area-search input');
+        if (districtSearchInput) {
+          districtSearchInput.value = '';
+          const options = document.querySelectorAll('.option-group.scroll-list .option-item');
+          options.forEach(option => {
+            option.style.display = 'flex';
+          });
+        }
+      }
+      
+      // Инициализация фильтра районов
+      initDistrictFilter();
+      
+
+      
+    });
+    
+    var swiper = new Swiper(".mySwiper", {
+      pagination: {
+        el: ".swiper-pagination",
+      },
+    });
+  </script>
+
+</body>
+</html>
