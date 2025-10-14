@@ -25,7 +25,7 @@ return [
     | Supported drivers: "application", "file"
     |
     */
-
+    
     'strategies' => [
 
         'half' => [
