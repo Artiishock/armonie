@@ -3,117 +3,24 @@
 return [
 
     'image_manipulation' => [
-
-        /*
-        |--------------------------------------------------------------------------
-        | Route Prefix
-        |--------------------------------------------------------------------------
-        |
-        | The route prefix for serving HTTP based manipulated images through Glide.
-        | If using the cached option, this should be the URL of the cached path.
-        |
-        */
-
-        'route' => 'img',
-
-        /*
-        |--------------------------------------------------------------------------
-        | Require Glide security token
-        |--------------------------------------------------------------------------
-        |
-        | With this option enabled, you are protecting your website from mass image
-        | resize attacks. You will need to generate tokens using the Glide tag
-        | but may want to disable this while in development to tinker.
-        |
-        */
-
-        'secure' => true,
-
-        /*
-        |--------------------------------------------------------------------------
-        | Image Manipulation Driver
-        |--------------------------------------------------------------------------
-        |
-        | The driver that will be used under the hood for image manipulation.
-        | Supported: "gd" or "imagick" (if installed on your server)
-        |
-        */
-
         'driver' => 'gd',
-
-        /*
-        |--------------------------------------------------------------------------
-        | Additional Image Extensions
-        |--------------------------------------------------------------------------
-        |
-        | Define any additional image file extensions you would like Statamic to
-        | process. You should ensure that both your server and the selected
-        | image manipulation driver properly supports these extensions.
-        |
-        */
-
-        'additional_extensions' => [
-            // 'heic',
-        ],
-
-        /*
-        |--------------------------------------------------------------------------
-        | Save Cached Images
-        |--------------------------------------------------------------------------
-        |
-        | Enabling this will make Glide save publicly accessible images. It will
-        | increase performance at the cost of the dynamic nature of HTTP based
-        | image manipulation. You will need to invalidate images manually.
-        |
-        */
-
-        'cache' => false,
+        'route' => 'img', // Должно совпадать с маршрутом выше
+        'cache' => true,
         'cache_path' => public_path('img'),
-
-        /*
-        |--------------------------------------------------------------------------
-        | Image Manipulation Defaults
-        |--------------------------------------------------------------------------
-        |
-        | You may define global defaults for all manipulation parameters, such as
-        | quality, format, and sharpness. These can and will be overwritten
-        | on the tag parameter level as well as the preset level.
-        |
-        */
-
-        'defaults' => [
-            // 'quality' => 50,
+        'secure' => false,
+    ],
+    
+    'disk' => 'assets',
+    
+    'containers' => [
+        'main' => [
+            'disk' => 'assets',
+            'driver' => 'file',
+            'path' => '/',
+            'allow_uploads' => true,
+            'allow_downloads' => true,
+            'restrict' => false,
         ],
-
-        /*
-        |--------------------------------------------------------------------------
-        | Image Manipulation Presets
-        |--------------------------------------------------------------------------
-        |
-        | Rather than specifying your manipulation params in your templates with
-        | the glide tag, you may define them here and reference their handles.
-        | They may also be automatically generated when you upload assets.
-        | Containers can be configured to warm these caches on upload.
-        |
-        */
-
-        'presets' => [
-            // 'small' => ['w' => 200, 'h' => 200, 'q' => 75, 'fit' => 'crop'],
-        ],
-
-        /*
-        |--------------------------------------------------------------------------
-        | Generate Image Manipulation Presets on Upload
-        |--------------------------------------------------------------------------
-        |
-        | By default, presets will be automatically generated on upload, ensuring
-        | the cached images are available when they are first used. You may opt
-        | out of this behavior here and have the presets generated on demand.
-        |
-        */
-
-        'generate_presets_on_upload' => true,
-
     ],
 
     /*

@@ -6,6 +6,18 @@ use Illuminate\Support\Facades\Log;
 use Statamic\Facades\Entry;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
+use Statamic\Http\Controllers\GlideController;
+
+Route::get('/img/{path?}', function ($path = null) {
+    if (!$path) {
+        // Возвращаем заглушку или ошибку 404
+        return response()->file(public_path('assets/placeholder.jpg'));
+    }
+    
+    return app(GlideController::class)->generateByPath($path);
+})->where('path', '.*')->name('statamic.glide.generateByPath');
+
+
 
 // API для создания объектов с дополнительными изображениями
 Route::post('/api/telegram-property', function (Request $request) {

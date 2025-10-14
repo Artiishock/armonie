@@ -18,7 +18,7 @@
         {{ hero_slides }}
           {{ if enabled }}
           <div class="swiper-slide hero-slide">
-            <img src="{{ image[0] }}" alt="{{ title }}" class="hero-image">
+            <img src="{{ glide:url  }}"  alt="{{ title }}" class="hero-image">
             <div class="hero-content">
               <h2 class="hero-title">{{ title }}</h2>
               <p class="hero-subtitle">{{ subtitle }}</p>
@@ -40,12 +40,14 @@
       </div>
       <div class="swiper-container">
         <div class="swiper-wrapper properties-container">
-          {{ collection:properties }}
-            <div class="swiper-slide property-card" data-type="{{ type }}">
+          <!-- {{ collection:properties }} -->
+            <!-- <div class="swiper-slide property-card" data-type="{{ type }}">
               <div class="property-image">
-                {{ images }}
-                  <img src="{{ glide:url }}">
-                {{ /images }}
+                {{  images }}
+                  <div class="slide">
+                       <img src="{{ images }}" alt="{{ title }}">
+                  </div>
+                {{ /images}}
                 <div class="property-badge">{{ type == 'rent' ? 'Аренда' : 'Покупка' }}</div>
               </div>
               <div class="property-details">
@@ -76,8 +78,8 @@
                       type: '{{ type }}'})">
                   Оставить заявку</button>
               </div>
-            </div>
-          {{ /collection:properties }}
+            </div> -->
+          <!-- {{ /collection:properties }} -->
         </div>
       </div>
 
