@@ -18,6 +18,9 @@ WORKDIR /var/www/html
 # Создание необходимых папок
 RUN mkdir -p storage/framework/views storage/framework/cache storage/framework/sessions
 RUN mkdir -p storage/statamic storage/logs bootstrap/cache
+RUN mkdir -p storage/statamic/glide
+RUN mkdir -p public/img
+RUN chmod 775 storage/statamic/glide public/img
 
 # Установка прав доступа
 RUN chmod -R 775 storage bootstrap/cache
