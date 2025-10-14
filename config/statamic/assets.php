@@ -222,5 +222,8 @@ return [
     */
 
     'svg_sanitization_on_upload' => true,
-
+'cloud' => env('STATAMIC_ASSETS_CLOUD', false),
+'image_manipulation' => [
+    'driver' => env('STATAMIC_IMAGE_MANIPULATION_DRIVER', 'gd'),
+],
 ];
