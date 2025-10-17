@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 </head>
 <body>
+
+  <!-- неактивный -->
   <!-- Hero Slider -->
   <div class="hero-swiper swiper">
       <div class="swiper-wrapper">
@@ -40,8 +42,8 @@
       </div>
       <div class="swiper-container">
         <div class="swiper-wrapper properties-container">
-          <!-- {{ collection:properties }} -->
-            <!-- <div class="swiper-slide property-card" data-type="{{ type }}">
+          {{ collection:properties }}
+             <div class="swiper-slide property-card" data-type="{{ type }}">
               <div class="property-image">
                 {{  images }}
                   <div class="slide">
@@ -78,8 +80,8 @@
                       type: '{{ type }}'})">
                   Оставить заявку</button>
               </div>
-            </div> -->
-          <!-- {{ /collection:properties }} -->
+            </div> 
+          {{ /collection:properties }}
         </div>
       </div>
 
@@ -196,6 +198,9 @@ buttons.forEach(btn => {
         el: '.swiper-pagination',
         clickable: true,
       },
+      breakpoints: {
+        slidesPerView: 1,
+        },
       navigation: {
 
       },
@@ -208,14 +213,14 @@ buttons.forEach(btn => {
 <section class="about">
 <div class="about_compani">
 <h3 class="about-title">О компании</h3>
-<div class="about-info">
+<!-- <div class="about-info">
 <p>Наше агентство недвижимости «Armonie» предлагает вам рассмотреть аренду, покупку или продажу недвижимости в Румынии – спокойной европейской стране с доступным уровнем жизни.
 </p>
 <p>В силу различных причин не каждый желающий может позволить себе иметь в Румынии недвижимость у моря. В таких случаях аренда в Румынии – отличный вариант и проверенный способ организовать для себя и своей семьи полноценный курортный морской отдых.
 </p>
 <p>В сети есть множество предложений об аренде курортной недвижимости. Неподготовленному человеку очень сложно сориентироваться среди этой массы предложений и выбрать подходящий для себя вариант.
 </p>
-</div>
+</div> -->
 <div class="achievement">
 <p class="item">
 <span class="val">525</span>

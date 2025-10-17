@@ -8,14 +8,9 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
 use Statamic\Http\Controllers\GlideController;
 
-Route::get('/img/{path?}', function ($path = null) {
-    if (!$path) {
-        // Возвращаем заглушку или ошибку 404
-        return response()->file(public_path('assets/placeholder.jpg'));
-    }
-    
-    return app(GlideController::class)->generateByPath($path);
-})->where('path', '.*')->name('statamic.glide.generateByPath');
+Route::get('/img/{path}', [GlideController::class, 'generateByPath'])
+    ->where('path', '.*')
+    ->name('statamic.glide.generateByPath');
 
 
 
@@ -701,6 +696,7 @@ Route::post('/api/telegram-blok', function (Request $request) {
 
 
 // Остальные маршруты...
+Route::statamic('/', 'home.index');
 Route::statamic('catalog', 'catalog.index');
 Route::statamic('about', 'about.index');
 Route::statamic('services', 'services.index');
