@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title ?? site:name }}</title>
+
+  <link rel="stylesheet" href="/public/css/app.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+</head>
+<body>
+  <!-- Hero Slider -->
+   
+  <div class="hero-swiper swiper">
+    
+      <div class="swiper-wrapper">
+        {{collection:pages}}
+            {{ hero_slides }}
+                {{ if enabled }}
+                    <div class="swiper-slide hero-slide">
+                        <img src="{{ image }}"  alt="{{ title }}" class="hero-image">
+                        <div class="hero-content">
+                            <h2 class="hero-title">{{ title }}</h2>
+                            <p class="hero-subtitle">{{ subtitle }}</p>
+                            <a href="{{ button_link }}" class="hero-btn">{{ button_text }}</a>
+                        </div>
+                    </div>
+                {{ /if }}
+            {{ /hero_slides }}
+        {{/collection:pages}}
+      </div>
+    </div>
+     
+  <!-- Properties Section -->
+    <section class="properties-section">
+      <div class="container_toggle">
+        <div class="toggle-container" id="toggleContainer">
+          <button class="toggle-btn active" data-type="rent">Аренда</button>
+          <button class="toggle-btn" data-type="buy">Покупка</button>
+          <div class="toggle-indicator"></div>
+        </div>
+      </div>
+      <div class="swiper-container">
+        <div class="swiper-wrapper properties-container">
+          {{ collection:properties }}
+             <div class="swiper-slide property-card" data-type="{{ type }}">
+              <div class="property-image">
+                {{  images }}
+                  <div class="slide-home">
+                       <img src="{{ url }}" alt="{{ title }}">
+                  </div>
+                {{ /images}}
+                <div class="property-badge">{{ type == 'rent' ? 'Аренда' : 'Покупка' }}</div>
+              </div>
+              <div class="property-details">
+                <h3 class="property-title">{{ title }}</h3>
+                <div class="property-features">
+                  <div>{{ district }}</div>
+                  <div>{{ address }}</div>
+                  <div>Этаж {{ floor }}</div>
+                  <div>{{ rooms }} комн.</div>
+                </div>
+                <div class="property-nearby">
+                  <h4>Что есть рядом:</h4>
+                  <div class="nearby-tags" 
+                      data-nearbu="{{ nearbu }}">
+                {{ nearbu }}
+                  </div>
+                </div>
+              </div>
+              <div class="property-footer">
+                <div class="property-price">
+                  {{ price }} {{ type == 'rent' ? '€/мес' : '€' }}
+                </div>
+                <button class="property-button" 
+                    onclick="openApplicationModal({
+                      id: '{{ id }}',
+                      title: '{{ title }}',
+                      price: '{{ price }}',
+                      type: '{{ type }}'})">
+                  Оставить заявку</button>
+              </div>
+            </div> 
+          {{ /collection:properties }}
+        </div>
+      </div>
+
+    </section>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  // Инициализация слайдера
+  let swiperProperties = null;
+
+    function initSwiper() {
+      // Убедитесь, что контейнер существует
+      const container = document.querySelector('.swiper-container');
+      if (!container) return;
+      
+      // Удаляем предыдущий инстанс если существует
+      if (swiperProperties && swiperProperties.destroy) {
+        swiperProperties.destroy(true, true);
+      }
+      
+      swiperProperties = new Swiper('.swiper-container', {
+        loop: false, // Лучше отключить при фильтрации
+        slidesPerView: 'auto', // Автоподбор ширины
+        centeredSlides: false, // Отключить центрирование
+        spaceBetween: 20,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        breakpoints: {
+          640: {
+            slidesPerView: 2,
+          },
+          1024: {
+            slidesPerView: 3,
+          }
+        },
+        // Важная настройка:
+        observer: true, // Наблюдатель за изменениями DOM
+        observeParents: true, // Наблюдать за родительскими элементами
+        observeSlideChildren: true // Наблюдать за дочерними элементами
+      });
+    }
+
+    // ФИЛЬТРАЦИЯ С ОБНОВЛЕНИЕМ СЛАЙДЕРА
+    document.addEventListener('DOMContentLoaded', () => {
+      initSwiper();
+      
+      // Скрываем покупку изначально
+      document.querySelectorAll('.property-card[data-type="buy"]').forEach(slide => {
+        slide.style.display = 'none';
+      });
+
+      // Обработчики кнопок фильтрации
+      document.querySelectorAll('.toggle-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const type = this.dataset.type;
+          
+          document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          document.querySelectorAll('.property-card').forEach(slide => {
+            slide.style.display = slide.dataset.type === type ? 'block' : 'none';
+          });
+          
+          // ВАЖНО: Добавляем задержку перед обновлением
+          setTimeout(() => {
+            if(swiperProperties) {
+              swiperProperties.update();
+              swiperProperties.slideTo(0);
+            }
+          }, 50);
+        });
+      });
+
+  });
+
+const container = document.getElementById('toggleContainer');
+const buttons = container.querySelectorAll('.toggle-btn');
+const indicator = container.querySelector('.toggle-indicator');
+
+function updateIndicator(activeButton) {
+  const buttonRect = activeButton.getBoundingClientRect();
+  const containerRect = container.getBoundingClientRect();
+  
+  indicator.style.width = `${buttonRect.width}px`;
+  indicator.style.left = `${buttonRect.left - containerRect.left}px`;
+}
+
+// Инициализация индикатора
+buttons.forEach(btn => {
+  if(btn.classList.contains('active')) updateIndicator(btn);
+  
+  btn.addEventListener('click', function() {
+    buttons.forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    updateIndicator(this);
+  });
+});
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    // Инициализация hero слайдера
+    const heroSwiper = new Swiper('.hero-swiper', {
+      loop: true,
+      speed: 1000,
+      autoplay: {
+        delay: 5000,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      
+      navigation: {
+
+      },
+      effect: 'fade',
+      fadeEffect: {
+        crossFade: true
+      }
+    });
+  </script>
+<section class="about">
+<div class="about_compani">
+<h3 class="about-title">О компании</h3>
+<div class="about-info">
+<p>Наше агентство недвижимости «Armonie» предлагает вам рассмотреть аренду, покупку или продажу недвижимости в Румынии – спокойной европейской стране с доступным уровнем жизни.
+</p>
+<p>В силу различных причин не каждый желающий может позволить себе иметь в Румынии недвижимость у моря. В таких случаях аренда в Румынии – отличный вариант и проверенный способ организовать для себя и своей семьи полноценный курортный морской отдых.
+</p>
+<p>В сети есть множество предложений об аренде курортной недвижимости. Неподготовленному человеку очень сложно сориентироваться среди этой массы предложений и выбрать подходящий для себя вариант.
+</p>
+</div>
+<div class="achievement">
+<p class="item">
+<span class="val">525</span>
+<span class="name">Сдано</span>
+</p>
+<p class="item">
+ <span class="val">38</span>
+<span class="name">Продано</span>
+</p>
+         
+<p class="item">
+<span class="val">100+</span>
+<span class="name">Квартир в управлении</span>
+</p>
+<p class="item">
+<span class="val">20+</span>
+<span class="name"> Новых квартир каждый день</span>
+</p>
+<p class="item">
+<span class="val">500+</span>
+<span class="name">Довольных клиентов</span>
+ </p>
+ </div>
+ <div class="about-advantages">
+    <h3>Преимущества</h3>
+<ul class="advantages">
+            <li class="item_advantages">
+    <span class="icon_bx">
+        <span class="icon">
+            <img src="/assets/a3.svg" alt="Экономия времени" >
+        </span>
+    </span>
+    <span class="cont_bx">
+        <p class="title ">Экономия времени</p>
+        <p class="txt">Наше агентство недвижимости постоянно обновляет базу данных аренды квартир. Благодаря чему, обратившись к нам, сразу начинается поиск необходимого и подходящего жилья.</p>
+    </span>
+</li>
+                <li class="item_advantages">
+    <span class="icon_bx">
+        <span class="icon">
+            <img src="/assets/a4.svg" alt="Выбор">
+        </span>
+    </span>
+    <span class="cont_bx">
+        <p class="title">Выбор</p>
+        <p class="txt">Наши риэлторы предлагают клиентам множество вариантов и таким образом можно выбрать квартиру не выходя из офиса.</p>
+    </span>
+</li>
+                <li class="item_advantages">
+    <span class="icon_bx">
+        <span class="icon">
+            <img src="/assets/a2.svg" alt="Отсутствие мошенников">
+        </span>
+    </span>
+    <span class="cont_bx">
+        <p class="title">Отсутствие мошенников</p>
+        <p class="txt">Взяв квартиру в аренду самостоятельно, возникает вероятность взаимодействия с мошенниками, в результате чего можно лишиться и денег, и жилья. При выборе квартиры через наше агентство эта версия исключается, потому что риэлтор проверяет каждый вариант без помощи других.</p>
+    </span>
+</li>
+                <li class="item_advantages">
+    <span class="icon_bx">
+        <span class="icon">
+            <img src="/assets/a1.svg" alt="Юридическая безопасность">
+        </span>
+    </span>
+    <span class="cont_bx">
+        <p class="title">Юридическая безопасность</p>
+        <p class="txt">Весь немалый объем документации для сделки осуществляется в рамках закона</p>
+    </span>
+</li>
+                <li class="item_advantages">
+    <span class="icon_bx">
+        <span class="icon">
+            <img src="/assets/a5.svg" alt="Удобство">
+        </span>
+    </span>
+    <span class="cont_bx">
+        <p class="title">Удобство</p>
+        <p class="txt">Обращаясь в наше агентство недвижимости, клиент может выбрать себе подходящий вариант, даже если он находится далеко. Мы всегда учитываем ваши критерии и пожелания. Мы делаем свою работу с любовью, качественно, прозрачно и честно.</p>
+    </span>
+</li>
+</ul>
+ </div>
+ <div class="aboet_work">
+    <h3>Как мы работаем</h3>
+<ol class="working_steps">
+<li>
+    <p class="num">1</p>
+    <p class="title">Подготовка проекта договора аренды</p>
+</li>
+<li>
+    <p class="num">2</p>
+    <p class="title">Проверяет безопасность сделки</p>
+</li>
+<li>
+    <p class="num">3</p>
+    <p class="title">Способствует передаче задатка</p>
+</li>
+<li>
+    <p class="num">4</p>
+    <p class="title">Помогает в ведение переговоров, торгов</p>
+</li>
+ <li>
+    <p class="num">5</p>
+    <p class="title">Заключает договор</p>
+ </li>
+ </ol>
+ </div>
+</div>
+<div class="about_btn">
+<a href="/about" class="btn"> Подробнее о компании</a>
+</div>
+</section> 
+</body>
+</html>
