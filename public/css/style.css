@@ -239,9 +239,9 @@
   .listing-image-wraper {
     /* flex: 0 0 50%; */
     position: relative;
-        height: 95vh !important; /* Изменено с 400px на 100% */
+        height: 100%; /* Изменено с 400px на 100% */
     width: 35vw; /* Изменено с 600px на 100% */
-    margin-left: 5vw;
+    margin-left: 2vw;
     display: flex;
 
   }
@@ -489,16 +489,17 @@
 
 .slide{
   width: 100%;
-  height: 70vh;
+  height: 65vh !important;
   display: flex;
       justify-content: center !important;
     align-items: center !important;
 }
 
 .slide img{
-  min-width: fit-content !important;
-  width: auto;
-  height: 100%;
+  
+  width: 70vw !important;
+  max-width: fit-content;
+  height: 100% !important;
 
 }
   .listing-details-wrap{

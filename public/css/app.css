@@ -624,7 +624,7 @@ padding-left: 2vw;
   justify-content: center;
   background-color: var(--dark);
   color: #fff;
-  padding: clamp(20px, 5vw, 40px) 0;
+
   width: 100%;
   min-height: 400px;
   height: auto;
@@ -691,7 +691,7 @@ padding-left: 2vw;
 }
 
 .map_block {
-  padding-top: clamp(30px, 6vw, 100px);
+  padding-top: clamp(30px, 7vw, 130px);
   width: 100%;
   height: auto;
   display: flex;
