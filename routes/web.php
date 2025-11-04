@@ -20,12 +20,12 @@ Route::post('/api/telegram-property', function (Request $request) {
         Log::info('📨 Получен запрос от Telegram бота');
         
         // Проверка аутентификации
-        $token = $request->bearerToken();
-        $expectedToken = env('TELEGRAM_API_TOKEN');
+        // $token = $request->bearerToken();
+        // $expectedToken = env('TELEGRAM_API_TOKEN');
         
-        if (!$token || $token !== $expectedToken) {
-            return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
-        }
+        // if (!$token || $token !== $expectedToken) {
+        //     return response()->json(['success' => false, 'message' => 'Unauthorized'], 401);
+        // }
         
         // Валидация данных с учетом assets_array
         $validated = $request->validate([
