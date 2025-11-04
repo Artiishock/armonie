@@ -1332,13 +1332,14 @@ nav a.active {
 } */
 
 .quick-application-section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 60px 0;
+    background: var(--dark);
+
     color: white;
+    margin-top: 20px;
 }
 
 .quick-application-form {
-    max-width: 600px;
+    width: 900px;
     margin: 0 auto;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
