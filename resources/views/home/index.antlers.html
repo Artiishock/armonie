@@ -245,6 +245,41 @@ buttons.forEach(btn => {
 <span class="name">Довольных клиентов</span>
  </p>
  </div>
+<section class="quick-application-section">
+    <div class="container">
+        <div class="quick-application-form">
+            <h3 class="quick-app-title">Быстрая заявка</h3>
+            <p class="quick-app-subtitle">Оставьте свои контакты и мы свяжемся с вами в течение 15 минут</p>
+            
+            <form id="quickApplicationForm" class="quick-app-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="quick_full_name" class="form-label">ФИО *</label>
+                        <input type="text" id="quick_full_name" name="full_name" required class="form-input" placeholder="Иванов Иван Иванович">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="quick_phone" class="form-label">Телефон *</label>
+                        <input type="tel" id="quick_phone" name="phone" required class="form-input" placeholder="+7 (999) 999-99-99">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="quick_budget" class="form-label">Бюджет</label>
+                        <input type="text" id="quick_budget" name="budget" class="form-input" placeholder="Например: 50 000 €">
+                    </div>
+                </div>
+                
+                
+                <button type="submit" class="quick-app-btn">
+                    <span class="btn-text">Отправить заявку</span>
+                    <span class="btn-loading" style="display: none;">Отправка...</span>
+                </button>
+                
+                <p class="form-notice">* Обязательные поля для заполнения</p>
+            </form>
+        </div>
+    </div>
+</section>
  <div class="about-advantages">
     <h3>Преимущества</h3>
 <ul class="advantages">
@@ -284,7 +319,7 @@ buttons.forEach(btn => {
                 <li class="item_advantages">
     <span class="icon_bx">
         <span class="icon">
-            <img src="/assets/a1.svg" alt="Юридическая безопасность">
+            <img src="/assets/a1.png" alt="Юридическая безопасность">
         </span>
     </span>
     <span class="cont_bx">

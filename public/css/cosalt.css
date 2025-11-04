@@ -1,8 +1,8 @@
         :root {
 
             --primary: #1c3bfb;
-            --secondary: #d4af37;
-            --accent: #91784a;
+            --secondary: #db4a5b;
+            --accent: #48020b;
             --light: #f8f9fa;
             --gray: #6c757d;
             --transition: all 0.3s ease;
@@ -419,3 +419,17 @@
                 margin-top: 35vw !important;
             }
          }
+
+                  nav a.active {
+
+
+    
+    background-color:#d4373770;
+    border-radius: 25px;
+    padding-left:2vw ;
+    padding-right: 2vw;
+    padding-bottom: 0.5vh ;
+    padding-top: 0.5vh;
+ 
+    /* Добавьте другие стили по вашему усмотрению */
+}

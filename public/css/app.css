@@ -16,10 +16,10 @@
 }
 
 :root {
-  --primary: #1c3bfb;
+  --primary: #33415b;
   --secondary: #d4af37;
   --accent: #91784a;
-  --dark: #000c56;
+  --dark: #212a3b;
   --light: #f1f3f5;
   --text: #000000;
   --text-light: #9a9b9b;
@@ -108,6 +108,25 @@ header {
   fill: var(--accent);
 }
 
+.alternative-logo{
+height: 50.75px;
+object-fit: contain;
+}
+
+.anti{
+  margin: 0;
+}
+        .alliance-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 40px;
+            letter-spacing: 2px;
+        }
+        .row{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
 .phone-div {
   margin-right: clamp(15px, 3vw, 50px);
   color: var(--text);
@@ -127,6 +146,8 @@ nav {
   flex-wrap: wrap;
   gap: clamp(25px, 4vw, 45px);
   width: 90%;
+  justify-content: center;
+  align-items: center;
 }
 
 nav a {
@@ -179,7 +200,7 @@ nav a {
   width: 70% !important;
   height: 90%;
 padding-left: 2vw;
-  background: linear-gradient(-152deg, transparent 700px, #000c56 0) top right;
+  background: linear-gradient(-152deg, transparent 700px, #212a3b 0) top right;
   background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
@@ -1288,3 +1309,24 @@ grid-template-columns: 1fr ;
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Стили для активной ссылки в навигации */
+nav a.active {
+
+
+    
+    background-color:#d4af3770;
+    border-radius: 25px;
+    padding-left:2vw ;
+    padding-right: 2vw;
+    padding-bottom: 0.5vh ;
+    padding-top: 0.5vh;
+ 
+    /* Добавьте другие стили по вашему усмотрению */
+}
+
+/* Или если вы хотите использовать другой подход */
+/* nav a[aria-current="page"] {
+    color: #ff0000;
+    font-weight: bold;
+} */

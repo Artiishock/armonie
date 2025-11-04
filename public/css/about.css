@@ -483,3 +483,14 @@
                 grid-template-columns: 1fr ;
             }
         }
+
+                 nav a.active {
+    background-color:#d4af3770;
+    border-radius: 25px;
+    padding-left:2vw ;
+    padding-right: 2vw;
+    padding-bottom: 0.5vh ;
+    padding-top: 0.5vh;
+ 
+    /* Добавьте другие стили по вашему усмотрению */
+}
