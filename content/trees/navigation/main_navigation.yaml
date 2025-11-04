@@ -18,7 +18,7 @@ tree:
   -
     id: 238efd9a-50e2-4f17-81cd-58bdd1cc2c8c
     title: 'О компании'
-    url: about
+    url: /about
   -
     id: ab8e60e3-49e8-42ca-9dc6-844da636be6b
     title: Блог
