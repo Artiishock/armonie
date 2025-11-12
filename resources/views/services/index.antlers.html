@@ -42,12 +42,55 @@
                     <h2>Почему гражданство ЕС?</h2>
                     <p>Хотите получить гражданство Евросоюза и наслаждаться всеми преимуществами членства в ЕС? Румыния предлагает удобный и доступный путь к гражданству!</p>
                     <p>Вы сможете свободно перемещаться и жить в любой стране ЕС, работать и учиться без ограничений.</p>
-                    <p>Процесс получения гражданства может занять до 2 лет. Стоимость инвестирования зависит от выбранного пакета услуг и может варьироваться от 4500€ до 7000€.</p>
+                    <p>Процесс получения гражданства может занять до 2 лет. Стоимость инвестирования зависит от выбранного пакета услуг и может варьироваться от 4000€ до 8500€.</p>
                     <p>Мы поможем вам оформить все необходимые документы и провести вас через процесс получения гражданства. Обращайтесь к нам за бесплатной консультацией и узнайте больше о возможности получения румынского гражданства!</p>
                     <p>Станьте гражданином ЕС уже сегодня! Румыния открывает вам новые горизонты!</p>
                 </div>
             </div>
-
+<section class="quick-application-section ">
+    <div class="container full-width">
+        <div class="quick-application-form">
+            <h3 class="quick-app-title">Быстрая заявка</h3>
+            <p class="quick-app-subtitle">Оставьте свои контакты и мы свяжемся с вами в течение 15 минут</p>
+            
+            <form id="quickApplicationForm" class="quick-app-form">
+                <!-- Скрытые обязательные поля для API -->
+                <input type="hidden" name="telegram" value="не указан">
+                <input type="hidden" name="email" value="quick@application.ru">
+                <input type="hidden" name="consultation_type" value="покупка">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="quick_full_name" class="form-label">ФИО *</label>
+                        <input type="text" id="quick_full_name" name="full_name" required class="form-input" placeholder="Иванов Иван Иванович">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="quick_phone" class="form-label">Телефон *</label>
+                        <input type="tel" id="quick_phone" name="phone" required class="form-input" placeholder="+7 (999) 999-99-99">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="quick_budget" class="form-label">Бюджет</label>
+                        <input type="text" id="quick_budget" name="budget" class="form-input" placeholder="Например: 50 000 €">
+                    </div>
+                </div>
+                
+                <div class="form-group ">
+                    <label for="quick_message" class="form-label">Дополнительная информация (необязательно)</label>
+                    <textarea id="quick_message" name="message" class="form-textarea" placeholder="Расскажите о ваших пожеланиях..."></textarea>
+                </div>
+                
+                <button type="submit" class="quick-app-btn">
+                    <span class="btn-text">Отправить заявку</span>
+                    <span class="btn-loading" style="display: none;">Отправка...</span>
+                </button>
+                
+                <p class="form-notice">* Обязательные поля для заполнения</p>
+            </form>
+                    </div>
+    </div>
+</section>
             <div class="highlight">
                 <h3>Процедура получения гражданства Румынии</h3>
                 <p>Мы обеспечиваем полное сопровождение на всех этапах получения гражданства</p>

@@ -13,3 +13,11 @@ php artisan storage:link
 php please static:warm
 
 echo "Deployment complete!"
+
+#!/bin/sh
+
+echo "Running database migrations..."
+php artisan migrate --force
+
+echo "Starting application..."
+php -S 0.0.0.0:$PORT -t public

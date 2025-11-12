@@ -309,10 +309,15 @@ buttons.forEach(btn => {
  <section class="quick-application-section">
     <div class="container">
         <div class="quick-application-form">
-            <h3 class="quick-app-title">Онлайн-заявка</h3>
-            <p class="quick-app-subtitle">Оставьте свои контакты и мы свяжемся с вами </p>
+            <h3 class="quick-app-title">Быстрая заявка</h3>
+            <p class="quick-app-subtitle">Оставьте свои контакты и мы свяжемся с вами в течение 15 минут</p>
             
             <form id="quickApplicationForm" class="quick-app-form">
+                <!-- Скрытые обязательные поля для API -->
+                <input type="hidden" name="telegram" value="не указан">
+                <input type="hidden" name="email" value="quick@application.ru">
+                <input type="hidden" name="consultation_type" value="покупка">
+                
                 <div class="form-row">
                     <div class="form-group">
                         <label for="quick_full_name" class="form-label">ФИО *</label>
@@ -330,6 +335,10 @@ buttons.forEach(btn => {
                     </div>
                 </div>
                 
+                <div class="form-group full-width">
+                    <label for="quick_message" class="form-label">Дополнительная информация (необязательно)</label>
+                    <textarea id="quick_message" name="message" class="form-textarea" placeholder="Расскажите о ваших пожеланиях..."></textarea>
+                </div>
                 
                 <button type="submit" class="quick-app-btn">
                     <span class="btn-text">Отправить заявку</span>

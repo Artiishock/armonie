@@ -445,3 +445,11 @@
                 font-size: 1rem;
             }
         }
+
+        .quick-application-section {
+    background: var(--dark);
+ width: 100%;
+    color: white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

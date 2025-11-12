@@ -15,6 +15,7 @@
     <body class="">
           <!-- Шапка -->
     <header >
+        <div class="header">
         <div  class="nav-div">
                    <a href="/">
             {{ if segment_1 == 'services' || segment_1 == 'open_bisnes' || segment_1 == 'consalt' }}
@@ -86,6 +87,7 @@
                 onclick="openApplicationModal()"
             >Оставить заявку</button>
         </div>
+        </div>
     </header>
         <div class=" lg:min-h-screen flex flex-col items-center justify-center  content11">
             {{ template_content }}
@@ -121,7 +123,7 @@
                         <a href="https://www.instagram.com/apartment_romania_mamaia/" target="_blank" rel="nofollow">Instagram</a>
                         <a href="https://www.facebook.com/housingromania" target="_blank" rel="nofollow">Facebook</a>
                         <a href="https://t.me/Armonie_agentie_imobiliare" target="_blank" rel="nofollow">Telegram</a>
-                        <a class="tiktok" href="https://www.tiktok.com/@armonie_imobiliare" target="_blank" rel="nofollow">TikTok</a>
+                        <a class="tiktok" href="https://www.tiktok.com/@_armonie_imobiliare_?_t=8riSC0AuV30&_r=1" target="_blank" rel="nofollow">TikTok</a>
                     </div>
                 </div>
 
@@ -236,6 +238,109 @@
     </div>
 </div>
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const quickForm = document.getElementById('quickApplicationForm');
+    if (!quickForm) return;
+    
+    const submitBtn = quickForm.querySelector('.quick-app-btn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const btnLoading = submitBtn.querySelector('.btn-loading');
+    
+    // Маска для телефона
+    const phoneInput = document.getElementById('quick_phone');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                if (value[0] === '7' || value[0] === '8') {
+                    value = value.substring(1);
+                }
+                let formattedValue = '+7 ';
+                if (value.length > 0) {
+                    formattedValue += '(' + value.substring(0, 3);
+                }
+                if (value.length > 3) {
+                    formattedValue += ') ' + value.substring(3, 6);
+                }
+                if (value.length > 6) {
+                    formattedValue += '-' + value.substring(6, 8);
+                }
+                if (value.length > 8) {
+                    formattedValue += '-' + value.substring(8, 10);
+                }
+                e.target.value = formattedValue;
+            }
+        });
+    }
+    
+    quickForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Получаем данные формы
+        const formData = new FormData(quickForm);
+        const data = {
+            full_name: formData.get('full_name') || '',
+            phone: formData.get('phone') || '',
+            budget: formData.get('budget') || '',
+            message: formData.get('message') || '',
+            // Обязательные поля для API с правильными значениями
+            telegram: formData.get('telegram') || 'не указан',
+            email: formData.get('email') || 'quick@application.ru',
+            consultation_type: 'покупка' // Исправлено: должно быть 'покупка' или 'аренда'
+        };
+        
+        // Валидация
+        if (!data.full_name.trim() || !data.phone.trim()) {
+            alert('Пожалуйста, заполните обязательные поля (ФИО и телефон)');
+            return;
+        }
+        
+        // Показываем индикатор загрузки
+        btnText.style.display = 'none';
+        btnLoading.style.display = 'inline';
+        submitBtn.disabled = true;
+        
+        try {
+            console.log('Отправка данных:', data);
+            
+            const response = await fetch('/submit-application', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(data)
+            });
+            
+            console.log('Статус ответа:', response.status);
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`HTTP error! status: ${response.status}, details: ${errorText}`);
+            }
+            
+            const result = await response.json();
+            console.log('Ответ сервера:', result);
+            
+            if (result.success) {
+                alert('✅ Заявка успешно отправлена! Мы свяжемся с вами в течение 15 минут.');
+                quickForm.reset();
+            } else {
+                throw new Error(result.message || 'Ошибка при отправке заявки');
+            }
+            
+        } catch (error) {
+            console.error('Полная ошибка:', error);
+            alert('❌ Произошла ошибка при отправке заявки: ' + error.message);
+        } finally {
+            // Скрываем индикатор загрузки
+            btnText.style.display = 'inline';
+            btnLoading.style.display = 'none';
+            submitBtn.disabled = false;
+        }
+    });
+});
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('applicationModal');
     const modalOverlay = document.getElementById('modalOverlay');

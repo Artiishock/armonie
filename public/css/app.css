@@ -16,10 +16,11 @@
 }
 
 :root {
-  --primary: #33415b;
+    --dark: #212a3b;
+    --primary: #33415b;
   --secondary: #d4af37;
   --accent: #91784a;
-  --dark: #212a3b;
+
   --light: #f1f3f5;
   --text: #000000;
   --text-light: #9a9b9b;
@@ -36,6 +37,7 @@ html, body {
   font-size: 14px;
   font-weight: 400;
   background: url("/assets/logo_bd.svg") no-repeat calc(50% + 426px) 0/853px auto fixed;
+
 }
 
 h1, h2, h3, h4, h5 {
@@ -85,23 +87,29 @@ h1, h2, h3, h4, h5 {
 }
 
 /* Header */
-header {
+header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header {
   background-color: white;
   position: fixed;
-  width: 100%;
-  top: 0;
+  width: 90%;
+  top: 10px;
   z-index: 1000;
   padding: clamp(10px, 2vw, 15px) 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 20px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
 }
 
 .logo_svg {
   width: clamp(120px, 25vw, 200px);
   height: auto;
-  margin-left: clamp(20px, 5vw, 100px);
+  margin-left:50px;
 }
 
 .logo_svg .b {
@@ -128,7 +136,7 @@ object-fit: contain;
           align-items: center;
         }
 .phone-div {
-  margin-right: clamp(15px, 3vw, 50px);
+  margin-right: clamp(15px, 2vw, 50px);
   color: var(--text);
   font-weight: bold;
   font-size: clamp(14px, 2vw, 18px);
@@ -159,8 +167,8 @@ nav a {
 }
 
 .phone-div{
-  margin-left: 5vw;
-  margin-right: 5vw;
+  margin-left: 3vw;
+  margin-right: 1vw;
 }
 
 .nav-btn{
@@ -636,6 +644,13 @@ padding-left: 2vw;
   margin-bottom: clamp(50px, 10vw, 100px);
   flex-wrap: wrap;
   gap: 15px;
+  /* counter-reset: var(--dark);
+  background-color: var(--light); */
+}
+.about_btn a{
+
+  color:  #263b6a;
+  background-color: #00000000;
 }
 
 /* Footer */
@@ -970,7 +985,7 @@ margin-top: 25vw;
 
 .hero-content {
   top: -5px;
-  background: linear-gradient(-145deg, transparent 700px, #000c56 0) top right;
+  background: linear-gradient(-145deg, transparent 700px, #212a3b 0) top right;
 height: 110%;
 }
 }
@@ -1031,7 +1046,7 @@ nav a{
 
 .hero-content {
   top: 0px;
-  background: linear-gradient(-139deg, transparent 700px, #000c56 0) top right;
+  background: linear-gradient(-139deg, transparent 700px, #212a3b 0) top right;
 height: 100%;
 }
 }
@@ -1078,7 +1093,7 @@ height: 100%;
 
 .hero-content {
   top: -70px;
-  background: linear-gradient(-139deg, transparent 700px, #000c56 0) top right;
+  background: linear-gradient(-139deg, transparent 700px, #212a3b 0) top right;
 height: 110%;
 }
 }
@@ -1127,7 +1142,7 @@ font-size: 1.5rem;
 
 .hero-content {
   top: -120px;
-  background: linear-gradient(-135deg, transparent 700px, #000c56 0) top right;
+  background: linear-gradient(-135deg, transparent 700px, #212a3b 0) top right;
   width: 130%;
   height: 120vh;
 }
@@ -1182,7 +1197,7 @@ grid-template-columns: 1fr 1fr;
 .hero-content {
   top: 60vh;
   left: 0px;
-  background:  #000c56;
+  background:  #212a3b;
   width: 100vw !important;
   height: 40vh;
   padding-top: 20px;
@@ -1213,7 +1228,7 @@ width: 90vw;
 @media (max-width: 1024px) {
   @media (max-height: 1369px) and (min-height:1360px){
     .hero-content {
- background: linear-gradient(-134deg, transparent 800px, #000c56 0) top right;
+ background: linear-gradient(-134deg, transparent 800px, #212a3b 0) top right;
 }
 
 .hero-title{
@@ -1230,7 +1245,7 @@ width: 90vw;
 @media (max-width: 700px) {
   @media (max-height: 914px){
     .hero-content {
- background-color: #000c56;
+ background-color: #212a3b;
 }
 
 .hero-title{
@@ -1353,6 +1368,7 @@ nav a.active {
     font-weight: 700;
     margin-bottom: 10px;
     text-align: center;
+        color: #d4af37;
 }
 
 .quick-app-subtitle {
@@ -1412,7 +1428,7 @@ nav a.active {
     width: 100%;
     padding: 15px;
     background: white;
-    color: #667eea;
+        color: #d4af37;
     border: none;
     border-radius: 10px;
     font-size: 16px;
