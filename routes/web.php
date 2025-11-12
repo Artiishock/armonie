@@ -806,7 +806,6 @@ Route::post('/api/telegram-blok', function (Request $request) {
                 }
             }
         }
-        
         // ===== КОНЕЦ ЗАГРУЗКИ ИЗОБРАЖЕНИЙ =====
         
         // СОХРАНЕНИЕ В STATAMIC (коллекция blok)
@@ -844,6 +843,97 @@ Route::post('/api/telegram-blok', function (Request $request) {
         ], 422);
     } catch (\Exception $e) {
         Log::error('🔥 Ошибка при создании новости: ' . $e->getMessage());
+        return response()->json([
+            'success' => false,
+            'message' => 'Ошибка: ' . $e->getMessage()
+        ], 500);
+    }
+})->withoutMiddleware(['web', 'verify.csrf']);
+Route::get('/api/telegram-property/storage-info', function() {
+    try {
+        $supabaseUrl = env('SUPABASE_URL');
+        $supabaseKey = env('SUPABASE_SERVICE_KEY');
+        
+        if (!$supabaseUrl || !$supabaseKey) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Supabase credentials missing',
+                'storage_type' => 'unknown'
+            ], 500);
+        }
+        
+        // Пробуем получить список файлов в бакете properties
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $supabaseKey,
+            'Content-Type' => 'application/json'
+        ])->get("{$supabaseUrl}/storage/v1/object/list/properties");
+        
+        $files = $response->json() ?? [];
+        
+        return response()->json([
+            'status' => 'success',
+            'storage_type' => 'supabase',
+            'bucket' => 'properties',
+            'file_count' => count($files),
+            'files_sample' => array_slice($files, 0, 5) // первые 5 файлов для примера
+        ]);
+        
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+            'storage_type' => 'error'
+        ], 500);
+    }
+})->withoutMiddleware(['web', 'verify.csrf']);
+
+// Тестовый endpoint для Supabase
+Route::post('/api/telegram-property/test-supabase', function(Request $request) {
+    try {
+        Log::info('🧪 Тестовый запрос Supabase');
+        
+        $validated = $request->validate([
+            'title' => 'required|string',
+            'type' => 'required|in:rent,buy'
+        ]);
+        
+        // Простая проверка - создаем тестовую запись
+        $entry = Entry::make()
+            ->collection('properties')
+            ->data([
+                'title' => 'TEST: ' . $validated['title'],
+                'type' => $validated['type'],
+                'price' => 1000,
+                'address' => 'Test Address',
+                'district' => 'Constanta',
+                'floor' => 1,
+                'rooms' => 1,
+                'has_lift' => true,
+                'has_balcony' => true,
+                'bathroom' => 1,
+                'type_home' => 'квартира',
+                'nearbu' => 'test',
+                'date_use' => 'test',
+                'apartment_area' => 50,
+                'description' => 'Test object',
+                'published' => false // Не публикуем тестовые объекты
+            ]);
+
+        $entry->save();
+        $entryId = $entry->id();
+        
+        Log::info('✅ Тестовый объект создан', ['id' => $entryId]);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Тестовый объект создан успешно',
+            'test_id' => $entryId,
+            'supabase_connected' => true
+        ]);
+        
+    } catch (\Exception $e) {
+        Log::error('❌ Ошибка теста Supabase: ' . $e->getMessage());
+        
         return response()->json([
             'success' => false,
             'message' => 'Ошибка: ' . $e->getMessage()
