@@ -806,6 +806,7 @@ Route::post('/api/telegram-blok', function (Request $request) {
                 }
             }
         }
+        
         // ===== КОНЕЦ ЗАГРУЗКИ ИЗОБРАЖЕНИЙ =====
         
         // СОХРАНЕНИЕ В STATAMIC (коллекция blok)
