@@ -22,6 +22,7 @@
 
       <div class="advanced-filtering">
         <!-- Фильтр по цене -->
+                 <div class="filter_cont">
         <div class="filter-block">
           <label for="price-range">Цена, €</label>
           <div class="price-fields">
@@ -33,6 +34,22 @@
             <input class="select" type="range" id="price-range-max" min="0" max="500000" step="100" value="10000">
           </div>
         </div>
+                  <div class="filter-block">
+            <label>Удобства</label>
+          <div class="option-group">
+            <label class="option-item">
+              <input type="checkbox" name="amenities" value="lift" checked>
+              <span class="checkmark"></span>
+              <span>Лифт</span>
+            </label>
+            <label class="option-item">
+              <input type="checkbox" name="amenities" value="balcony" checked>
+              <span class="checkmark"></span>
+              <span>Балкон</span>
+            </label>
+          </div>
+          </div>
+          </div>
 
         <!-- Фильтр по количеству комнат -->
         <div class="filter_cont">
@@ -81,42 +98,7 @@
               </label>
             </div>
           </div>
-        </div>
-        
-        <div class="filter-block">
-          <label>Удобства</label>
-          <div class="option-group">
-            <label class="option-item">
-              <input type="checkbox" name="amenities" value="lift" checked>
-              <span class="checkmark"></span>
-              <span>Лифт</span>
-            </label>
-            <label class="option-item">
-              <input type="checkbox" name="amenities" value="balcony" checked>
-              <span class="checkmark"></span>
-              <span>Балкон</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- Фильтр по этажности -->
-        <div class="column_blok">
-          <div class="filter-block">
-            <label>Этаж</label>
-            <div class="floor-selection">
-              <div>
-                <label>От</label>
-                <input class="inp" type="number" id="floor-min" min="0" value="0">
-              </div>
-              <div>
-                <label>До</label>
-                <input class="inp" type="number" id="floor-max" min="0" value="20">
-              </div>
-            </div>
-          </div>
-
-          <!-- Фильтр по площади -->
-          <div class="filter-block">
+                    <div class="filter-block">
             <label>Площадь, м²</label>
             <div class="area-selection">
               <div>
@@ -129,18 +111,36 @@
               </div>
             </div>
           </div>
-          
-          <!-- Фильтр по районам -->
-          <div class="filter-block">
-            <label>Район</label>
+        </div>
+        
+                <div class="filter_cont">
+        <div class="filter-block">
+                      <label>Район</label>
             <div class="area-search" id="district-search">
              
             </div>
             <div class="option-group scroll-list">
               <!-- Динамически заполнится из JavaScript -->
             </div>
-          </div>
+
+
         </div>
+          <div class="filter-block">
+            <label>Этаж</label>
+            <div class="floor-selection">
+              <div >
+                <label>От</label>
+                <input class="inp" type="number" id="floor-min" min="0" value="0">
+              </div>
+              <div>
+                <label>До</label>
+                <input class="inp" type="number" id="floor-max" min="0" value="20">
+              </div>
+            </div>
+          </div>
+      </div> 
+       <!-- Фильтр по этажности -->
+
         
         <!-- Кнопки управления фильтрами -->
         <div class="filter-controls">
@@ -252,6 +252,7 @@
       {{ /collection:properties }}
     </div>
   </section>
+
  <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Элементы фильтра
