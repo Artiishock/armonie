@@ -849,7 +849,8 @@ Route::post('/api/telegram-blok', function (Request $request) {
         ], 500);
     }
 })->withoutMiddleware(['web', 'verify.csrf']);
-Route::get('/api/telegram-property/storage-info', function() {
+// Endpoint для проверки Supabase (замените старый)
+Route::get('/api/supabase-test', function() {
     try {
         $supabaseUrl = env('SUPABASE_URL');
         $supabaseKey = env('SUPABASE_SERVICE_KEY');
@@ -857,8 +858,7 @@ Route::get('/api/telegram-property/storage-info', function() {
         if (!$supabaseUrl || !$supabaseKey) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Supabase credentials missing',
-                'storage_type' => 'unknown'
+                'message' => 'Supabase credentials missing'
             ], 500);
         }
         
@@ -868,79 +868,81 @@ Route::get('/api/telegram-property/storage-info', function() {
             'Content-Type' => 'application/json'
         ])->get("{$supabaseUrl}/storage/v1/object/list/properties");
         
-        $files = $response->json() ?? [];
+        $files = [];
+        if ($response->successful()) {
+            $files = $response->json() ?? [];
+        }
         
         return response()->json([
             'status' => 'success',
-            'storage_type' => 'supabase',
-            'bucket' => 'properties',
-            'file_count' => count($files),
-            'files_sample' => array_slice($files, 0, 5) // первые 5 файлов для примера
+            'supabase_connected' => true,
+            'bucket_exists' => $response->successful(),
+            'files_count' => count($files),
+            'supabase_url' => $supabaseUrl,
+            'service_key_length' => strlen($supabaseKey),
+            'files_sample' => array_slice($files, 0, 3) // первые 3 файла для примера
         ]);
         
     } catch (\Exception $e) {
         return response()->json([
             'status' => 'error',
             'message' => $e->getMessage(),
-            'storage_type' => 'error'
+            'supabase_connected' => false
         ], 500);
     }
 })->withoutMiddleware(['web', 'verify.csrf']);
 
-// Тестовый endpoint для Supabase
-Route::post('/api/telegram-property/test-supabase', function(Request $request) {
+// Endpoint для тестовой загрузки изображения (исправленный)
+Route::post('/api/test-upload', function(Request $request) {
     try {
-        Log::info('🧪 Тестовый запрос Supabase');
+        Log::info('🧪 Тестовая загрузка изображения');
         
-        $validated = $request->validate([
-            'title' => 'required|string',
-            'type' => 'required|in:rent,buy'
-        ]);
+        $imageUrl = $request->input('image_url');
         
-        // Простая проверка - создаем тестовую запись
-        $entry = Entry::make()
-            ->collection('properties')
-            ->data([
-                'title' => 'TEST: ' . $validated['title'],
-                'type' => $validated['type'],
-                'price' => 1000,
-                'address' => 'Test Address',
-                'district' => 'Constanta',
-                'floor' => 1,
-                'rooms' => 1,
-                'has_lift' => true,
-                'has_balcony' => true,
-                'bathroom' => 1,
-                'type_home' => 'квартира',
-                'nearbu' => 'test',
-                'date_use' => 'test',
-                'apartment_area' => 50,
-                'description' => 'Test object',
-                'published' => false // Не публикуем тестовые объекты
+        if (!$imageUrl) {
+            return response()->json([
+                'success' => false,
+                'message' => 'image_url parameter required'
+            ], 400);
+        }
+        
+        $fileName = 'test_' . time() . '.jpg';
+        $result = uploadToSupabaseStorage($imageUrl, $fileName);
+        
+        if ($result) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Image uploaded successfully',
+                'url' => $result,
+                'file_name' => $fileName
             ]);
-
-        $entry->save();
-        $entryId = $entry->id();
-        
-        Log::info('✅ Тестовый объект создан', ['id' => $entryId]);
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Тестовый объект создан успешно',
-            'test_id' => $entryId,
-            'supabase_connected' => true
-        ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to upload image'
+            ], 500);
+        }
         
     } catch (\Exception $e) {
-        Log::error('❌ Ошибка теста Supabase: ' . $e->getMessage());
-        
+        Log::error('❌ Ошибка тестовой загрузки: ' . $e->getMessage());
         return response()->json([
             'success' => false,
-            'message' => 'Ошибка: ' . $e->getMessage()
+            'message' => $e->getMessage()
         ], 500);
     }
-})->withoutMiddleware(['web', 'verify.csrf']);
+})->withoutMiddleware(['web', 'verify.csrf']); // ⬅️ ВАЖНО: добавить withoutMiddleware
 
+// Endpoint для проверки конфигурации
+Route::get('/api/debug-config', function() {
+    return response()->json([
+        'supabase_url' => env('SUPABASE_URL') ? '✅ Установлен' : '❌ Отсутствует',
+        'supabase_service_key' => env('SUPABASE_SERVICE_KEY') ? '✅ Установлен (' . strlen(env('SUPABASE_SERVICE_KEY')) . ' chars)' : '❌ Отсутствует',
+        'supabase_anon_key' => env('SUPABASE_ANON_KEY') ? '✅ Установлен' : '❌ Отсутствует',
+        'app_env' => env('APP_ENV'),
+        'app_debug' => env('APP_DEBUG'),
+        'app_url' => env('APP_URL')
+    ]);
+})->withoutMiddleware(['web', 'verify.csrf']);
 
 // Остальные маршруты...
 Route::statamic('/', 'home.index');
