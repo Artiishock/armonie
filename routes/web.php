@@ -172,23 +172,38 @@ function uploadToSupabaseStorage($imageUrl, $fileName) {
         }
         
         Log::info("🔗 Подключение к Supabase: {$supabaseUrl}");
+        Log::info("📥 Попытка загрузки изображения: {$imageUrl}");
 
-        // Скачиваем изображение
-        $client = new \GuzzleHttp\Client();
-        $response = $client->get($imageUrl, [
+        // Скачиваем изображение с улучшенной обработкой ошибок
+        $client = new \GuzzleHttp\Client([
             'timeout' => 30,
+            'connect_timeout' => 10,
+            'verify' => false, // Отключаем SSL verification для тестов
             'headers' => [
                 'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            ],
+            'curl' => [
+                CURLOPT_RESOLVE => [$this->getHostWithFallback($imageUrl)] // DNS fallback
             ]
         ]);
         
-        $imageData = $response->getBody()->getContents();
-        
-        if (empty($imageData)) {
-            throw new Exception('Failed to download image - empty response');
+        try {
+            $response = $client->get($imageUrl);
+            $imageData = $response->getBody()->getContents();
+            
+            if (empty($imageData)) {
+                throw new Exception('Failed to download image - empty response');
+            }
+            
+            Log::info("📥 Изображение скачано, размер: " . strlen($imageData) . " bytes");
+
+        } catch (\GuzzleHttp\Exception\ConnectException $e) {
+            Log::error('❌ Ошибка подключения: ' . $e->getMessage());
+            throw new Exception('Cannot connect to image host: ' . $e->getMessage());
+        } catch (\GuzzleHttp\Exception\RequestException $e) {
+            Log::error('❌ Ошибка запроса: ' . $e->getMessage());
+            throw new Exception('Failed to download image: ' . $e->getMessage());
         }
-        
-        Log::info("📥 Изображение скачано, размер: " . strlen($imageData) . " bytes");
 
         // Загружаем в Supabase Storage
         $uploadResponse = Http::withHeaders([
@@ -217,6 +232,23 @@ function uploadToSupabaseStorage($imageUrl, $fileName) {
         Log::error('❌ Ошибка в uploadToSupabaseStorage: ' . $e->getMessage());
         return null;
     }
+}
+
+// Вспомогательная функция для DNS fallback
+function getHostWithFallback($url) {
+    $host = parse_url($url, PHP_URL_HOST);
+    $ip = gethostbyname($host);
+    
+    // Если не удалось разрешить DNS, используем альтернативный IP
+    if ($ip === $host) {
+        Log::warning("⚠️ Не удалось разрешить DNS для: {$host}");
+        // Можно добавить статические IP для популярных сервисов
+        if ($host === 'via.placeholder.com') {
+            return 'via.placeholder.com:443:185.199.108.153'; // Пример IP для GitHub Pages
+        }
+    }
+    
+    return "{$host}:443:{$ip}";
 }
 
 /**
@@ -949,7 +981,78 @@ Route::get('/api/debug-config', function() {
     ]);
 })->withoutMiddleware(['web', 'verify.csrf']);
 
+Route::get('/api/test-image', function() {
+    try {
+        // Создаем простое тестовое изображение
+        $image = imagecreate(600, 400);
+        $backgroundColor = imagecolorallocate($image, 0, 136, 204); // Синий фон
+        $textColor = imagecolorallocate($image, 255, 255, 255); // Белый текст
+        
+        // Добавляем текст
+        imagestring($image, 5, 150, 180, 'Test Image', $textColor);
+        imagestring($image, 3, 130, 200, 'Armonie Imobiliare', $textColor);
+        
+        // Сохраняем в временный файл
+        $tempPath = storage_path('app/test_image.jpg');
+        imagejpeg($image, $tempPath);
+        imagedestroy($image);
+        
+        // Читаем файл и возвращаем как base64 или сохраняем
+        $imageData = file_get_contents($tempPath);
+        
+        // Удаляем временный файл
+        unlink($tempPath);
+        
+        return response($imageData)
+            ->header('Content-Type', 'image/jpeg')
+            ->header('Content-Disposition', 'inline; filename="test_image.jpg"');
+            
+    } catch (\Exception $e) {
+        Log::error('❌ Ошибка создания тестового изображения: ' . $e->getMessage());
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+});
 
+// Обновите тестовый endpoint для загрузки
+Route::post('/api/test-upload', function(Request $request) {
+    try {
+        Log::info('🧪 Тестовая загрузка изображения');
+        
+        $imageUrl = $request->input('image_url');
+        
+        // Если URL не предоставлен, используем наш тестовый endpoint
+        if (!$imageUrl) {
+            $imageUrl = url('/api/test-image'); // Используем наш собственный endpoint
+        }
+        
+        $fileName = 'test_' . time() . '.jpg';
+        
+        Log::info("🖼️ Используем URL: {$imageUrl}");
+        $result = uploadToSupabaseStorage($imageUrl, $fileName);
+        
+        if ($result) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Image uploaded successfully',
+                'url' => $result,
+                'file_name' => $fileName,
+                'source_url' => $imageUrl
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to upload image'
+            ], 500);
+        }
+        
+    } catch (\Exception $e) {
+        Log::error('❌ Ошибка тестовой загрузки: ' . $e->getMessage());
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ], 500);
+    }
+})->withoutMiddleware(['web', 'verify.csrf']);
 function ensureSupabaseBucket($bucketName = 'properties') {
     try {
         $supabaseUrl = env('SUPABASE_URL');
