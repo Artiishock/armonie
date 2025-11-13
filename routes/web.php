@@ -159,6 +159,11 @@ Route::post('/api/telegram-property', function (Request $request) {
  */
 function uploadToSupabaseStorage($imageUrl, $fileName) {
     try {
+        // Проверяем и создаем бакет если нужно
+        if (!ensureSupabaseBucket('properties')) {
+            throw new Exception('Failed to ensure bucket exists');
+        }
+        
         $supabaseUrl = env('SUPABASE_URL');
         $supabaseKey = env('SUPABASE_SERVICE_KEY');
         
@@ -192,7 +197,7 @@ function uploadToSupabaseStorage($imageUrl, $fileName) {
         ])
         ->withOptions([
             'timeout' => 60,
-            'verify' => false // Отключаем SSL verification если нужно
+            'verify' => false
         ])
         ->put("{$supabaseUrl}/storage/v1/object/properties/{$fileName}", $imageData);
 
@@ -944,6 +949,49 @@ Route::get('/api/debug-config', function() {
     ]);
 })->withoutMiddleware(['web', 'verify.csrf']);
 
+
+function ensureSupabaseBucket($bucketName = 'properties') {
+    try {
+        $supabaseUrl = env('SUPABASE_URL');
+        $supabaseKey = env('SUPABASE_SERVICE_KEY');
+        
+        if (!$supabaseUrl || !$supabaseKey) {
+            throw new Exception('Supabase credentials not configured');
+        }
+        
+        // Проверяем существование бакета
+        $checkResponse = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $supabaseKey,
+        ])->get("{$supabaseUrl}/storage/v1/bucket/{$bucketName}");
+        
+        // Если бакет не существует (404), создаем его
+        if ($checkResponse->status() === 404) {
+            Log::info("🪣 Бакет {$bucketName} не существует, создаем...");
+            
+            $createResponse = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $supabaseKey,
+                'Content-Type' => 'application/json'
+            ])->post("{$supabaseUrl}/storage/v1/bucket", [
+                'name' => $bucketName,
+                'public' => true
+            ]);
+            
+            if ($createResponse->successful()) {
+                Log::info("✅ Бакет {$bucketName} создан успешно");
+                return true;
+            } else {
+                Log::error("❌ Ошибка создания бакета: " . $createResponse->body());
+                return false;
+            }
+        }
+        
+        return true;
+        
+    } catch (\Exception $e) {
+        Log::error('❌ Ошибка проверки бакета: ' . $e->getMessage());
+        return false;
+    }
+}
 // Остальные маршруты...
 Route::statamic('/', 'home.index');
 Route::statamic('catalog', 'catalog.index');
