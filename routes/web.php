@@ -22,6 +22,7 @@ Route::get('/img/{path}', [GlideController::class, 'generateByPath'])
 Route::post('/api/telegram-property', function (Request $request) {
     try {
         Log::info('📨 Получен запрос от Telegram бота');
+        Log::info('📦 Данные запроса:', $request->all());
         
         // Валидация данных с учетом assets_array
         $validated = $request->validate([
@@ -52,9 +53,10 @@ Route::post('/api/telegram-property', function (Request $request) {
         $uploadedImages = [];
 
         if (!empty($validated['images'])) {
+            Log::info('🖼️ Начинаем загрузку основных изображений: ' . count($validated['images']));
             foreach ($validated['images'] as $index => $imageUrl) {
                 try {
-                    Log::info("🖼️ Загрузка главного изображения {$index} в Supabase: {$imageUrl}");
+                    Log::info("🖼️ Загрузка главного изображения {$index}: {$imageUrl}");
                     
                     $fileName = 'main_' . time() . '_' . $index . '.jpg';
                     $uploadedPath = uploadToSupabaseStorage($imageUrl, $fileName);
@@ -71,15 +73,18 @@ Route::post('/api/telegram-property', function (Request $request) {
                     continue;
                 }
             }
+        } else {
+            Log::info('ℹ️ Нет основных изображений для загрузки');
         }
         
         // ===== ЗАГРУЗКА ДОПОЛНИТЕЛЬНЫХ ИЗОБРАЖЕНИЙ В SUPABASE =====
         $uploadedAssetsArray = [];
 
         if (!empty($validated['assets_array'])) {
+            Log::info('🖼️ Начинаем загрузку дополнительных изображений: ' . count($validated['assets_array']));
             foreach ($validated['assets_array'] as $index => $imageUrl) {
                 try {
-                    Log::info("🖼️ Загрузка дополнительного изображения {$index} в Supabase: {$imageUrl}");
+                    Log::info("🖼️ Загрузка дополнительного изображения {$index}: {$imageUrl}");
                     
                     $fileName = 'asset_' . time() . '_' . $index . '.jpg';
                     $uploadedPath = uploadToSupabaseStorage($imageUrl, $fileName);
@@ -96,9 +101,13 @@ Route::post('/api/telegram-property', function (Request $request) {
                     continue;
                 }
             }
+        } else {
+            Log::info('ℹ️ Нет дополнительных изображений для загрузки');
         }
         
         // СОХРАНЕНИЕ В STATAMIC
+        Log::info('💾 Начинаем сохранение в Statamic');
+        
         $entry = Entry::make()
             ->collection('properties')
             ->data([
@@ -140,6 +149,12 @@ Route::post('/api/telegram-property', function (Request $request) {
             'assets_array_saved' => count($uploadedAssetsArray)
         ]);
         
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        Log::error('❌ Ошибка валидации: ' . json_encode($e->errors()));
+        return response()->json([
+            'success' => false,
+            'message' => 'Ошибка валидации: ' . implode(', ', array_flatten($e->errors()))
+        ], 422);
     } catch (\Exception $e) {
         Log::error('🔥 Ошибка при создании объекта: ' . $e->getMessage(), [
             'file' => $e->getFile(),
@@ -181,9 +196,6 @@ function uploadToSupabaseStorage($imageUrl, $fileName) {
             'verify' => false, // Отключаем SSL verification для тестов
             'headers' => [
                 'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-            ],
-            'curl' => [
-                CURLOPT_RESOLVE => [$this->getHostWithFallback($imageUrl)] // DNS fallback
             ]
         ]);
         
@@ -233,7 +245,6 @@ function uploadToSupabaseStorage($imageUrl, $fileName) {
         return null;
     }
 }
-
 // Вспомогательная функция для DNS fallback
 function getHostWithFallback($url) {
     $host = parse_url($url, PHP_URL_HOST);
@@ -1095,6 +1106,84 @@ function ensureSupabaseBucket($bucketName = 'properties') {
         return false;
     }
 }
+Route::get('/api/health-check', function() {
+    return response()->json([
+        'status' => 'ok',
+        'message' => 'API работает',
+        'timestamp' => now()->toDateTimeString(),
+        'supabase_configured' => !empty(env('SUPABASE_URL')),
+        'statamic_working' => true
+    ]);
+});
+
+// Упрощенный тестовый endpoint для загрузки
+Route::post('/api/simple-test-upload', function(Request $request) {
+    try {
+        Log::info('🧪 Простой тест загрузки');
+        
+        // Просто возвращаем успех без реальной загрузки
+        return response()->json([
+            'success' => true,
+            'message' => 'Тестовый endpoint работает',
+            'test' => 'ok',
+            'received_data' => $request->all()
+        ]);
+        
+    } catch (\Exception $e) {
+        Log::error('❌ Ошибка простого теста: ' . $e->getMessage());
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ], 500);
+    }
+})->withoutMiddleware(['web', 'verify.csrf']);
+
+// Упрощенный endpoint для создания тестовой записи
+Route::post('/api/test-create-property', function(Request $request) {
+    try {
+        Log::info('🧪 Тестовое создание объекта');
+        
+        // Создаем тестовую запись без изображений
+        $entry = Entry::make()
+            ->collection('properties')
+            ->data([
+                'title' => 'ТЕСТ: ' . ($request->input('title') ?? 'Тестовый объект'),
+                'type' => 'rent',
+                'price' => 1000,
+                'address' => 'Тестовый адрес',
+                'district' => 'Constanta',
+                'floor' => 1,
+                'rooms' => 2,
+                'has_lift' => true,
+                'has_balcony' => true,
+                'bathroom' => 1,
+                'type_home' => 'квартира',
+                'nearbu' => 'тест',
+                'date_use' => 'тест',
+                'apartment_area' => 50,
+                'description' => 'Тестовый объект созданный через API',
+                'published' => false // Не публикуем тестовые объекты
+            ]);
+
+        $entry->save();
+        $entryId = $entry->id();
+        
+        Log::info('✅ Тестовый объект создан: ' . $entryId);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Тестовый объект создан',
+            'entry_id' => $entryId
+        ]);
+        
+    } catch (\Exception $e) {
+        Log::error('❌ Ошибка тестового создания: ' . $e->getMessage());
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ], 500);
+    }
+})->withoutMiddleware(['web', 'verify.csrf']);
 // Остальные маршруты...
 Route::statamic('/', 'home.index');
 Route::statamic('catalog', 'catalog.index');
