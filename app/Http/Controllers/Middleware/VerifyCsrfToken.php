@@ -20,6 +20,15 @@ class VerifyCsrfToken extends Middleware
         'telegram-webhook',
         '/api/telegram-property',
         '/api/telegram-property/*',
-        'telegram-property*'
+        'telegram-property*',
+                'telegram-blok', 
+        'submit-application',
+        'test-upload',
+        'supabase-test',
+        'debug-config',
+        'health-check',
+        'simple-test-upload',
+        'test-create-property',
+        '*'
     ];
 }
