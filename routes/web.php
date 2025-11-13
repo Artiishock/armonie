@@ -16,7 +16,7 @@ Route::get('/img/{path}', [GlideController::class, 'generateByPath'])
     ->name('statamic.glide.generateByPath');
 
 
-
+Route::prefix('api')->withoutMiddleware(['web', 'verify.csrf'])->group(function () {
 
 // API для добавления объектов недвижимости через Telegram бота
 Route::post('/api/telegram-property', function (Request $request) {
@@ -316,38 +316,79 @@ Route::get('/api/debug-config', function() {
 // Тестовый endpoint для загрузки изображения
 Route::post('/api/test-upload', function(Request $request) {
     try {
-        $imageUrl = $request->input('image_url');
+        Log::info('🧪 Упрощенный тест загрузки');
         
-        if (!$imageUrl) {
-            return response()->json([
-                'success' => false,
-                'message' => 'image_url parameter required'
-            ], 400);
+        // Создаем тестовое изображение в памяти
+        $image = imagecreate(200, 100);
+        $backgroundColor = imagecolorallocate($image, 0, 136, 204); // Синий фон
+        $textColor = imagecolorallocate($image, 255, 255, 255); // Белый текст
+        
+        // Добавляем текст
+        imagestring($image, 3, 20, 40, 'Test Image', $textColor);
+        
+        // Сохраняем в буфер
+        ob_start();
+        imagejpeg($image);
+        $imageData = ob_get_clean();
+        imagedestroy($image);
+        
+        Log::info("📸 Создано тестовое изображение, размер: " . strlen($imageData) . " bytes");
+        
+        $supabaseUrl = env('SUPABASE_URL');
+        $supabaseKey = env('SUPABASE_SERVICE_KEY');
+        
+        if (!$supabaseUrl || !$supabaseKey) {
+            throw new Exception('Supabase credentials not configured');
+        }
+        
+        // Создаем бакет если не существует
+        if (!ensureSupabaseBucket('properties')) {
+            throw new Exception('Failed to ensure bucket exists');
         }
         
         $fileName = 'test_' . time() . '.jpg';
-        $result = uploadToSupabaseStorage($imageUrl, $fileName);
         
-        if ($result) {
+        // Загружаем в Supabase
+        $uploadResponse = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $supabaseKey,
+            'Content-Type' => 'image/jpeg'
+        ])
+        ->withOptions([
+            'timeout' => 30,
+            'verify' => false
+        ])
+        ->put("{$supabaseUrl}/storage/v1/object/properties/{$fileName}", $imageData);
+
+        Log::info("📤 Ответ от Supabase: " . $uploadResponse->status());
+        
+        if ($uploadResponse->successful()) {
+            $publicUrl = "{$supabaseUrl}/storage/v1/object/public/properties/{$fileName}";
+            Log::info("✅ Тестовое изображение загружено: {$publicUrl}");
+            
             return response()->json([
                 'success' => true,
-                'message' => 'Image uploaded successfully',
-                'url' => $result
+                'message' => 'Test image uploaded successfully',
+                'url' => $publicUrl,
+                'file_name' => $fileName,
+                'method' => 'internal_generation'
             ]);
         } else {
+            $error = $uploadResponse->body();
+            Log::error("❌ Ошибка загрузки в Supabase: " . $error);
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to upload image'
+                'message' => 'Supabase upload failed: ' . $error
             ], 500);
         }
         
     } catch (\Exception $e) {
+        Log::error('❌ Ошибка упрощенного теста загрузки: ' . $e->getMessage());
         return response()->json([
             'success' => false,
             'message' => $e->getMessage()
         ], 500);
     }
-});
+})->withoutMiddleware(['web', 'verify.csrf']);
 
 
 
@@ -1139,51 +1180,47 @@ Route::post('/api/simple-test-upload', function(Request $request) {
 })->withoutMiddleware(['web', 'verify.csrf']);
 
 // Упрощенный endpoint для создания тестовой записи
-Route::post('/api/test-create-property', function(Request $request) {
-    try {
-        Log::info('🧪 Тестовое создание объекта');
-        
-        // Создаем тестовую запись без изображений
-        $entry = Entry::make()
-            ->collection('properties')
-            ->data([
-                'title' => 'ТЕСТ: ' . ($request->input('title') ?? 'Тестовый объект'),
-                'type' => 'rent',
-                'price' => 1000,
-                'address' => 'Тестовый адрес',
-                'district' => 'Constanta',
-                'floor' => 1,
-                'rooms' => 2,
-                'has_lift' => true,
-                'has_balcony' => true,
-                'bathroom' => 1,
-                'type_home' => 'квартира',
-                'nearbu' => 'тест',
-                'date_use' => 'тест',
-                'apartment_area' => 50,
-                'description' => 'Тестовый объект созданный через API',
-                'published' => false // Не публикуем тестовые объекты
-            ]);
+    
+    Route::post('/test-create-property', function(Request $request) {
+        try {
+            $entry = Entry::make()
+                ->collection('properties')
+                ->data([
+                    'title' => 'ТЕСТ: ' . ($request->input('title') ?? 'Тестовый объект'),
+                    'type' => 'rent',
+                    'price' => 1000,
+                    'address' => 'Тестовый адрес',
+                    'district' => 'Constanta',
+                    'floor' => 1,
+                    'rooms' => 2,
+                    'has_lift' => true,
+                    'has_balcony' => true,
+                    'bathroom' => 1,
+                    'type_home' => 'квартира',
+                    'nearbu' => 'тест',
+                    'date_use' => 'тест',
+                    'apartment_area' => 50,
+                    'description' => 'Тестовый объект созданный через API',
+                    'published' => false
+                ]);
 
-        $entry->save();
-        $entryId = $entry->id();
-        
-        Log::info('✅ Тестовый объект создан: ' . $entryId);
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Тестовый объект создан',
-            'entry_id' => $entryId
-        ]);
-        
-    } catch (\Exception $e) {
-        Log::error('❌ Ошибка тестового создания: ' . $e->getMessage());
-        return response()->json([
-            'success' => false,
-            'message' => $e->getMessage()
-        ], 500);
-    }
-})->withoutMiddleware(['web', 'verify.csrf']);
+            $entry->save();
+            $entryId = $entry->id();
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Тестовый объект создан',
+                'entry_id' => $entryId
+            ]);
+            
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    });
+});
 // Остальные маршруты...
 Route::statamic('/', 'home.index');
 Route::statamic('catalog', 'catalog.index');
