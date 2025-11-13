@@ -18,18 +18,6 @@ class VerifyCsrfToken extends Middleware
         // Ваши существующие исключения (перенесены из другого файла)
 
         '*'
+
     ];
 }  
-    //   'api/*',
-    //     'telegram-webhook',
-    //     '/api/telegram-property',
-    //     '/api/telegram-property/*',
-    //     'telegram-property*',
-    //             'telegram-blok', 
-    //     'submit-application',
-    //     'test-upload',
-    //     'supabase-test',
-    //     'debug-config',
-    //     'health-check',
-    //     'simple-test-upload',
-    //     'test-create-property',
