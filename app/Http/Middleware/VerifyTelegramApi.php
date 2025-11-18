@@ -23,9 +23,5 @@ class VerifyTelegramApi
     }
 }
 protected $except = [
-    'api/*',
-    'telegram-webhook',
-    '/api/telegram-property',
-    '/api/telegram-property/*',
-       'telegram-property*'
+   '*'
 ];

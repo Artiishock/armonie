@@ -16,10 +16,8 @@ class VerifyCsrfToken extends Middleware
         '!/Statamic/forms/submit/property_form',
         
         // Ваши существующие исключения (перенесены из другого файла)
-        'api/*',
-        'telegram-webhook',
-        '/api/telegram-property',
-        '/api/telegram-property/*',
-        'telegram-property*'
+
+        '*'
+
     ];
-}
+}  

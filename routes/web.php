@@ -16,6 +16,7 @@ Route::get('/img/{path}', [GlideController::class, 'generateByPath'])
 Route::post('/api/telegram-property', function (Request $request) {
     try {
         Log::info('📨 Получен запрос от Telegram бота');
+        Log::info('📦 Данные запроса:', $request->all());
         
         // Проверка аутентификации
         $token = $request->bearerToken();
@@ -54,6 +55,7 @@ Route::post('/api/telegram-property', function (Request $request) {
         $savedImages = [];
 
         if (!empty($validated['images'])) {
+            Log::info('🖼️ Начинаем загрузку основных изображений: ' . count($validated['images']));
             foreach ($validated['images'] as $index => $imageUrl) {
                 try {
                     Log::info("🖼️ Загрузка главного изображения {$index}: {$imageUrl}");
@@ -77,12 +79,15 @@ Route::post('/api/telegram-property', function (Request $request) {
                     continue;
                 }
             }
+        } else {
+            Log::info('ℹ️ Нет основных изображений для загрузки');
         }
         
         // ===== ЗАГРУЗКА ДОПОЛНИТЕЛЬНЫХ ИЗОБРАЖЕНИЙ =====
         $savedAssetsArray = [];
 
         if (!empty($validated['assets_array'])) {
+            Log::info('🖼️ Начинаем загрузку дополнительных изображений: ' . count($validated['assets_array']));
             foreach ($validated['assets_array'] as $index => $imageUrl) {
                 try {
                     Log::info("🖼️ Загрузка дополнительного изображения {$index}: {$imageUrl}");
@@ -106,9 +111,13 @@ Route::post('/api/telegram-property', function (Request $request) {
                     continue;
                 }
             }
+        } else {
+            Log::info('ℹ️ Нет дополнительных изображений для загрузки');
         }
         
         // СОХРАНЕНИЕ В STATAMIC
+        Log::info('💾 Начинаем сохранение в Statamic');
+        
         $entry = Entry::make()
             ->collection('properties')
             ->data([
@@ -150,6 +159,12 @@ Route::post('/api/telegram-property', function (Request $request) {
             'assets_array_saved' => count($savedAssetsArray)
         ]);
         
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        Log::error('❌ Ошибка валидации: ' . json_encode($e->errors()));
+        return response()->json([
+            'success' => false,
+            'message' => 'Ошибка валидации: ' . implode(', ', array_flatten($e->errors()))
+        ], 422);
     } catch (\Exception $e) {
         Log::error('🔥 Ошибка: ' . $e->getMessage(), [
             'file' => $e->getFile(),
@@ -203,6 +218,11 @@ function saveImageToAssets($imageData, $filename, $folder = 'properties') {
 
 function uploadToSUPABASEStorage($imageUrl, $fileName) {
     try {
+        // Проверяем и создаем бакет если нужно
+        if (!ensureSupabaseBucket('properties')) {
+            throw new Exception('Failed to ensure bucket exists');
+        }
+        
         $supabaseUrl = env('SUPABASE_URL');
         $supabaseKey = env('SUPABASE_SERVICE_KEY');
         
@@ -289,6 +309,22 @@ function uploadToSUPABASEStorage($imageUrl, $fileName) {
         return null;
     }
 }
+// Вспомогательная функция для DNS fallback
+function getHostWithFallback($url) {
+    $host = parse_url($url, PHP_URL_HOST);
+    $ip = gethostbyname($host);
+    
+    // Если не удалось разрешить DNS, используем альтернативный IP
+    if ($ip === $host) {
+        Log::warning("⚠️ Не удалось разрешить DNS для: {$host}");
+        // Можно добавить статические IP для популярных сервисов
+        if ($host === 'via.placeholder.com') {
+            return 'via.placeholder.com:443:185.199.108.153'; // Пример IP для GitHub Pages
+        }
+    }
+    
+    return "{$host}:443:{$ip}";
+}
 
 /**
  * Вспомогательные endpoint для проверки и отладки
@@ -345,38 +381,80 @@ Route::get('/api/debug-config', function() {
 // Тестовый endpoint для загрузки изображения
 Route::post('/api/test-upload', function(Request $request) {
     try {
-        $imageUrl = $request->input('image_url');
+        Log::info('🧪 Упрощенный тест загрузки');
         
-        if (!$imageUrl) {
-            return response()->json([
-                'success' => false,
-                'message' => 'image_url parameter required'
-            ], 400);
+        // Создаем тестовое изображение в памяти
+        $image = imagecreate(200, 100);
+        $backgroundColor = imagecolorallocate($image, 0, 136, 204); // Синий фон
+        $textColor = imagecolorallocate($image, 255, 255, 255); // Белый текст
+        
+        // Добавляем текст
+        imagestring($image, 3, 20, 40, 'Test Image', $textColor);
+        
+        // Сохраняем в буфер
+        ob_start();
+        imagejpeg($image);
+        $imageData = ob_get_clean();
+        imagedestroy($image);
+        
+        Log::info("📸 Создано тестовое изображение, размер: " . strlen($imageData) . " bytes");
+        
+        $supabaseUrl = env('SUPABASE_URL');
+        $supabaseKey = env('SUPABASE_SERVICE_KEY');
+        
+        if (!$supabaseUrl || !$supabaseKey) {
+            throw new Exception('Supabase credentials not configured');
+        }
+        
+        // Создаем бакет если не существует
+        if (!ensureSupabaseBucket('properties')) {
+            throw new Exception('Failed to ensure bucket exists');
         }
         
         $fileName = 'test_' . time() . '.jpg';
         $result = uploadToLocalStorage($imageUrl, $fileName);
         
-        if ($result) {
+        // Загружаем в Supabase
+        $uploadResponse = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $supabaseKey,
+            'Content-Type' => 'image/jpeg'
+        ])
+        ->withOptions([
+            'timeout' => 30,
+            'verify' => false
+        ])
+        ->put("{$supabaseUrl}/storage/v1/object/properties/{$fileName}", $imageData);
+
+        Log::info("📤 Ответ от Supabase: " . $uploadResponse->status());
+        
+        if ($uploadResponse->successful()) {
+            $publicUrl = "{$supabaseUrl}/storage/v1/object/public/properties/{$fileName}";
+            Log::info("✅ Тестовое изображение загружено: {$publicUrl}");
+            
             return response()->json([
                 'success' => true,
-                'message' => 'Image uploaded successfully',
-                'url' => $result
+                'message' => 'Test image uploaded successfully',
+                'url' => $publicUrl,
+                'file_name' => $fileName,
+                'method' => 'internal_generation'
             ]);
         } else {
+            $error = $uploadResponse->body();
+            Log::error("❌ Ошибка загрузки в Supabase: " . $error);
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to upload image'
+                'message' => 'Supabase upload failed: ' . $error
             ], 500);
         }
         
     } catch (\Exception $e) {
+        Log::error('❌ Ошибка упрощенного теста загрузки: ' . $e->getMessage());
         return response()->json([
             'success' => false,
             'message' => $e->getMessage()
         ], 500);
     }
-});
+})->withoutMiddleware(['web', 'verify.csrf']);
 
 
 
@@ -890,7 +968,88 @@ Route::post('/api/telegram-blok', function (Request $request) {
         ], 500);
     }
 })->withoutMiddleware(['web', 'verify.csrf']);
+// Endpoint для проверки Supabase (замените старый)
+Route::get('/api/supabase-test', function() {
+    try {
+        $supabaseUrl = env('SUPABASE_URL');
+        $supabaseKey = env('SUPABASE_SERVICE_KEY');
+        
+        if (!$supabaseUrl || !$supabaseKey) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Supabase credentials missing'
+            ], 500);
+        }
+        
+        // Пробуем получить список файлов в бакете properties
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $supabaseKey,
+            'Content-Type' => 'application/json'
+        ])->get("{$supabaseUrl}/storage/v1/object/list/properties");
+        
+        $files = [];
+        if ($response->successful()) {
+            $files = $response->json() ?? [];
+        }
+        
+        return response()->json([
+            'status' => 'success',
+            'supabase_connected' => true,
+            'bucket_exists' => $response->successful(),
+            'files_count' => count($files),
+            'supabase_url' => $supabaseUrl,
+            'service_key_length' => strlen($supabaseKey),
+            'files_sample' => array_slice($files, 0, 3) // первые 3 файла для примера
+        ]);
+        
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+            'supabase_connected' => false
+        ], 500);
+    }
+})->withoutMiddleware(['web', 'verify.csrf']);
 
+// Endpoint для тестовой загрузки изображения (исправленный)
+Route::post('/api/test-upload', function(Request $request) {
+    try {
+        Log::info('🧪 Тестовая загрузка изображения');
+        
+        $imageUrl = $request->input('image_url');
+        
+        if (!$imageUrl) {
+            return response()->json([
+                'success' => false,
+                'message' => 'image_url parameter required'
+            ], 400);
+        }
+        
+        $fileName = 'test_' . time() . '.jpg';
+        $result = uploadToSupabaseStorage($imageUrl, $fileName);
+        
+        if ($result) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Image uploaded successfully',
+                'url' => $result,
+                'file_name' => $fileName
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to upload image'
+            ], 500);
+        }
+        
+    } catch (\Exception $e) {
+        Log::error('❌ Ошибка тестовой загрузки: ' . $e->getMessage());
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage()
+        ], 500);
+    }
+})->withoutMiddleware(['web', 'verify.csrf']); // ⬅️ ВАЖНО: добавить withoutMiddleware
 
 Route::get('/api/health', function () {
     return response()->json([
