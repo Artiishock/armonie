@@ -1,7 +1,7 @@
         :root {
             --dark: #212a3b;
             --primary: #33415b;
-            --secondary: #db4a5b;
+            --secondary: #e82a408f;
             --accent: #48020b;
             --light: #f8f9fa;
             --gray: #6c757d;
@@ -96,7 +96,19 @@
 
         }
         
+              /* Button */
+         .btn {
+            border: none;
+           
+        }
         
+        .btn:hover {
+            background: transparent;
+            border: var(--primary) solid 4px;
+            transform: none !important;
+             transform: translateY(0px) !important;
+            color: var(--light);
+        } 
         /* Content Sections */
         .content-section {
             background: white;

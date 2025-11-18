@@ -1,11 +1,11 @@
         :root {
-            --primary: #1c3bfb;
+            --dark: #212a3b;
+            --primary: #33415b;
             --secondary: #d4af37;
             --accent: #91784a;
             --light: #f8f9fa;
             --gray: #6c757d;
             --transition: all 0.3s ease;
-            --dark: #000c56;
             --transition: all 0.3s ease;
             --shadow: 0 4px 10px rgba(0,0,0,0.1);
             --shadow-hover: 0 6px 15px rgba(0,0,0,0.2);
@@ -133,7 +133,7 @@
         .hero {
             position: relative;
             height: 70vh;
-            background: linear-gradient(rgba(10, 79, 109, 0.7), rgba(10, 79, 109, 0.7)), 
+            background: linear-gradient(var(--dark) 0%, var(--primary) 100%),
                         url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
             background-size: cover;
             background-position: center;
@@ -372,7 +372,7 @@
         
         /* Trust Section */
         .trust-section {
-            background: linear-gradient(135deg, var( --dark) 0%, #0a3a52 100%);
+            background: linear-gradient(var(--dark) 0%, var(--primary) 100%);
             color: white;
             padding: 4rem 0;
             margin-top: 4rem;
@@ -493,4 +493,61 @@
     padding-top: 0.5vh;
  
     /* Добавьте другие стили по вашему усмотрению */
+}
+
+.team_grid3{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px ;
+    img{
+        border-top-left-radius: 30%;
+        border-end-end-radius: 30%;
+    }
+}
+
+.team h3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dispflex{
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.dispflex img{
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 50%;
+
+}
+
+.boss_cart img{
+    border-radius: 20%;
+    width: 350px;
+    height: 350px;
+    object-fit: cover;
+    margin-right: 30px;
+    margin-left: 30px;
+}
+
+.boss_cart h2{
+    margin-bottom: 20px ;
+    font-size: 25px !important;
+}
+
+.boss_cart p{
+    font-size: 18px !important;
+    line-height: 1.4 !important;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.boss_cart{
+    margin-top: 40px;
+    margin-right: 20px;
 }

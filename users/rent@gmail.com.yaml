@@ -5,3 +5,7 @@ preferences:
   assets:
     assets:
       mode: grid
+      per_page: 500
+  collections:
+    properties:
+      per_page: 500
