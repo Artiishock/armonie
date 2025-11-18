@@ -8,7 +8,7 @@ updated_at: 1758208302
 hero_slides:
   -
     id: md4uylvx
-    image: /assets/bg2.1.jpg
+    image: /assets/hero1.jpg
     title: 'Аренда | Покупка квартир в Румынии (Констанца, Мамая, Нэводарь)'
     subtitle: '#Безопасность #Прозрачные условия #Экономия времени и денег #Гарантия качества #Высококлассный сервис '
     button_text: 'Посмотреть Каталог'
@@ -17,9 +17,9 @@ hero_slides:
     button_link: /catalog
   -
     id: mfpjbgb0
-    image: /assets/grazhdanstvo_ec.jpg
-    title: 'Как получить гражданство?'
-    subtitle: 'Мы поможем прочитайте нашу статью про то как это сделать'
+    image: /assets/hero4.jpg
+    title: 'Как получить гражданство Евросоюза?'
+    subtitle: 'Узнайте о возможности стать гражданином Евросоюза по упрощенной процедуре от 12 месяцев'
     button_text: Читать
     button_link: /services
     type: new_set
@@ -42,78 +42,7 @@ hero_slides:
     button_link: /consalt
     type: new_set
     enabled: true
-  -
-    id: mfpjksxd
-    image: /assets/4.jpg
-    title: 'Узнайте о нас'
-    subtitle: 'Мы являемся одной из первых официальных украинских компаний в Румынии.'
-    button_text: Читать
-    button_link: about
-    type: new_set
-    enabled: true
-  -
-    id: mfpjm8c8
-    image: /assets/man-businessman-reading-news-newspaper-pop-art-retro-style-61738943.png
-    title: 'Новости и статьи'
-    subtitle: 'Актуальная информация о недвижимости, инвестициях и жизни в Евросоюзе от экспертов Armonie'
-    button_text: Читать
-    button_link: /contact
-    type: new_set
-    enabled: true
-  -
-    id: md4uylvx
-    image: /assets/photo_2025-07-15_17-03-10.jpg
-    title: 'Большое количество квартир'
-    subtitle: 'Квартиры на любой вкус в Румынии для покупки и аренды'
-    button_text: 'Посмотреть Каталог'
-    type: new_set
-    enabled: true
-    button_link: /catalog
-  -
-    id: mfpjbgb0
-    image: /assets/grazhdanstvo_ec.jpg
-    title: 'Как получить гражданство?'
-    subtitle: 'Мы поможем прочитайте нашу статью про то как это сделать'
-    button_text: Читать
-    button_link: /services
-    type: new_set
-    enabled: true
-  -
-    id: mfpjhsnz
-    image: /assets/businesseurope.jpg
-    title: 'Как открыть бизнес в Евросоюзе?'
-    subtitle: 'Если вы хотите стать бизнесменом в Европейском союзе здесь и сейчас, то Вам поможет в этом лучшая компания Armonie'
-    button_text: Читать
-    button_link: /open_bisnes
-    type: new_set
-    enabled: true
-  -
-    id: mfpjisg6
-    image: /assets/pensja-w-polsce.jpg
-    title: 'Как можно получить пассивный доход в Евросоюзе?'
-    subtitle: 'Узнайте как получить пассивный доход в Евросоюзе, а мы поможем вам разобраться со всеми нюансами!'
-    button_text: Читать
-    button_link: /consalt
-    type: new_set
-    enabled: true
-  -
-    id: mfpjksxd
-    image: /assets/4.jpg
-    title: 'Узнайте о нас'
-    subtitle: 'Мы являемся одной из первых официальных украинских компаний в Румынии.'
-    button_text: Читать
-    button_link: about
-    type: new_set
-    enabled: true
-  -
-    id: mfpjm8c8
-    image: /assets/man-businessman-reading-news-newspaper-pop-art-retro-style-61738943.png
-    title: 'Новости и статьи'
-    subtitle: 'Актуальная информация о недвижимости, инвестициях и жизни в Евросоюзе от экспертов Armonie'
-    button_text: Читать
-    button_link: /contact
-    type: new_set
-    enabled: true
+
 ---
 ## Welcome to your brand new Statamic site!
 
