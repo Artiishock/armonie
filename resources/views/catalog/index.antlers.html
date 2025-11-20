@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Каталог недвижимости </title>
   <link rel="stylesheet" href="/css/style.css">
+      <link rel="stylesheet" href="/css/quick-app-stule.css">
   <!-- Link Swiper's CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -231,8 +232,14 @@
                 <div><span class="feature-icon">✓</span> Санузлов: {{ bathroom }}</div>
               </div>
             </div>
-            
-            <div class="info-block full-width">
+                      <div class="listing-actions">
+            <button class="action-button" onclick="openApplicationModal({
+            id: '{{ id }}',
+            title: '{{ title }}',
+            price: '{{ price }}',
+            type: '{{ type }}' })">Оставить заявку</button>
+          </div>
+            <div class=" full-width">
               <h4>Описание</h4>
               <div class="listing-description">
                 {{ description }}
@@ -240,13 +247,7 @@
             </div>
           </div>
           
-          <div class="listing-actions">
-            <button class="action-button" onclick="openApplicationModal({
-            id: '{{ id }}',
-            title: '{{ title }}',
-            price: '{{ price }}',
-            type: '{{ type }}' })">Оставить заявку</button>
-          </div>
+
         </div>
       </div>
       {{ /collection:properties }}

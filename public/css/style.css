@@ -1,7 +1,9 @@
+
+ 
  .real-estate-section {
     width: 100%;
     padding: 0 20px;
-    margin-top: 100px;
+    margin-top: 10vh;
     margin-bottom: 80px;
   }
   
@@ -219,7 +221,7 @@
     display: flex;
     flex-direction: column;
     gap: 40px;
-    max-width: 100%;
+
     padding: 0;
   }
   
@@ -270,14 +272,16 @@
 }
 
 .listing-description{
-  /* width: 55vw; */
+   width: 40vw; 
   height:90%;
   font-size: 1rem;
   overflow: scroll;
 }
 
 .full-width{
-  width: 230% !important;
+  position: relative;
+  left: -200px;
+  width: 200px !important;
   height:  15vw !important;
 }
 
@@ -347,9 +351,21 @@
     flex-grow: 1;
   }
   
-
+.info-block{
+    overflow: scroll;
+    height: 150px;
+}
   
   .info-block h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .full-width h4{
     margin-top: 0;
     margin-bottom: 15px;
     font-size: 18px;
@@ -872,4 +888,90 @@
     .quick-app-title {
         font-size: 24px;
     }
+}
+
+
+@media(max-width:1660px) {
+.full-width{
+
+  left: -450px;
+}
+
+.listing-description{
+  height: 10vh;
+}
+
+.info-block{
+  width: 40vw;
+  object-fit: cover;
+}
+}
+@media(max-width:1440px) {
+.full-width{
+
+  left: -350px;
+}
+
+.listing-description{
+  width: 35vw;
+}
+
+}
+@media(max-width:1350px) {
+.full-width{
+
+  left: -750px;
+}
+
+.listing-description{
+width: 60vw;
+}
+
+
+}
+@media(max-width:1210px) {
+.full-width{
+
+  left: -550px;
+}
+
+.listing-description{
+width: 60vw;
+}
+
+
+}
+@media(max-width:992px) {
+.full-width{
+
+  left: 0px;
+}
+
+.listing-description{
+width: 90vw;
+}
+.info-block{
+  width: 80vw;
+  object-fit: cover;
+}
+
+}
+@media(max-width:768px) {
+
+.listing-description{
+height: fit-content !important;
+}
+
+.info-block{
+ height: fit-content;
+}
+
+.action-button{
+  width: 100%;
+}
+
+.listing-actions{
+width: 90vw;
+}
+
 }
