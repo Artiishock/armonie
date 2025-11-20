@@ -91,6 +91,7 @@ header{
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 .header {
   background-color: white;
@@ -139,7 +140,7 @@ object-fit: contain;
   margin-right: clamp(15px, 2vw, 50px);
   color: var(--text);
   font-weight: bold;
-  font-size: clamp(14px, 2vw, 18px);
+  font-size: 16px;
   white-space: nowrap;
   a{
     text-decoration: none;
@@ -954,7 +955,7 @@ padding-left: 2vw;
   transition-delay: 0.2s;
 }
 
-@media (max-width: 1875px) {
+ @media (max-width: 1875px) {
 .hero-title{
   margin-top: 20vw;
   font-size: 1.5rem ;
@@ -964,22 +965,20 @@ padding-left: 2vw;
 
 @media (max-width: 1750px) {
 
-  .phone-div{
-  margin-left: 2vw;
-  margin-right: 2vw;
-  font-size: 1.2rem;
-}
 
-nav{
-  gap: 1vw;
+.hero-subtitle{
+  font-size: 1.2rem ;
 }
-
 
   .hero-title{
-  margin-top: 20vw;
+  margin-top: 15vw;
   font-size: 1.5vw ;
 }
+.hero-content{
+    background: linear-gradient(-150deg, transparent 600px, #212a3b 0) top right;
 }
+}
+
 
 @media (max-width: 1500px) {
 .hero-title{
@@ -998,47 +997,6 @@ height: 110%;
 }
 }
 
-@media (max-width: 1475px) {
-.nav-btn{
-  font-size: 1rem;
-}
-.logo_svg{
-  width: 15vw;
-
-}
-
-nav{
-  margin-left: 1.5vw;
-   width: 55vw; 
-}
-.phone-div{
-  margin-left: 1.5vw;
-}
-
-.nav-div{
-  width: 100%;
-}
-
-.nav-btn{
-  width: fit-content !important;
-  padding: 5px;
-}
-}
-
-
-@media (max-width: 1250px) {
-.nav-btn{
-  font-size: 1rem;
-}
-
-.phone-div{
-  font-size: 1rem;
-}
-
-nav a{
-  font-size: 1rem;
-}
-}
 
 
 @media (max-width: 1200px) {
@@ -1061,38 +1019,6 @@ height: 100%;
 
 @media (max-width: 1100px) {
 
-.nav-div{
-  display: grid;
-}
-
-  .logo_svg{
-    width: 15vw;
-    margin-left:8vw;
-  }
-
-  .phone-div{
-    margin-left: 0px;
-    font-size: 1.5rem;
-  }
-
-
-  nav a{
-      font-size: 1.5rem !important;  
-  }
-  nav{
-    width: 100vw;
-
-    grid-area: 2 / 1 / auto / span 3;
-    gap: 4vw;
-    margin-left: 0px;
-    margin-top: 1vh;
-    justify-content: center;
-  }
-
-  .nav-btn{
-    margin-right: 0px !important;
-    font-size: 1.3rem;
-  }
 .hero-title{
   margin-top: 40vw;
   margin-bottom: 5vw;
@@ -1104,37 +1030,6 @@ height: 100%;
   background: linear-gradient(-139deg, transparent 700px, #212a3b 0) top right;
 height: 110%;
 }
-}
-
-@media (max-width: 1000px) {
-  nav a{
-      font-size: 1.3rem !important;  
-  }
-
-.hero-title{
-  margin-top: 60vw;
-  margin-bottom: 5vw;
-  font-size: 1.3rem ;
-}
-
-.hero-subtitle{
-  font-size: 1rem;
-}
-
-.hero-btn {
-font-size: 1.5rem;
-}
-}
-
-@media (max-width: 840px) {
-  nav a{
-      font-size: 1rem !important;  
-  }
-
-  .about-info p {
-    width: 70vw;
-    font-size: 1.5rem !important;
-  }
 }
 
 @media (max-width: 820px) {
@@ -1155,38 +1050,71 @@ font-size: 1.5rem;
   height: 120vh;
 }
 
-.advantages{
-margin-left: 2vw;
-margin-right: 2vw;
-gap: 1vw;
-grid-template-columns: 1fr 1fr;
-
-}
-
-.item_advantages{
-  width: 40vw;
-}
-
-}
-
-@media (max-width: 700px) {
-
-.logo_svg{
-  width: 30vw;
-  margin-left: 2vw;
-}
-
-.phone-div{
-  font-size: 1.2rem;
-}
-
-.nav-btn{
-  font-size: 1.2rem;
-}
-
-  nav{
-    gap: 2vw;
+.about-info{
+  width: 80vw !important;
+  height: fit-content !important;
+  padding: 0 20px;
+  p{
+    width: 80vw !important;
+    font-size: 1.2rem !important;
   }
+}
+
+.item{
+  width: 25vw !important;
+}
+.achievement{
+  width: 100vw !important;
+}
+
+.advantages{
+  width: 100vw !important;
+}
+.form-row{
+
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 10px !important;
+
+}
+
+.form-group.full-width{
+  display: none !important;
+
+}
+.quick-app-form{
+
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+}
+
+.quick-app-btn{
+  width: 90vw !important;
+display: flex !important;
+justify-content: center !important;
+align-items: center !important;
+  padding: 10px 0 !important;
+}
+
+.form-group{
+  width: 90vw !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+}
+
+
+
+
+@media (max-width: 750px) {
+
 .hero-title{
   margin-top: 0vw;
   margin-bottom: 0vh;
@@ -1228,9 +1156,6 @@ width: 90vw;
 
 }
 
-.footer_section{
-  grid-template-columns: 1fr;
-}
 }
 
 @media (max-width: 1024px) {
@@ -1265,64 +1190,14 @@ width: 90vw;
   }
 }
 
-@media (max-width: 460px) {
-
-.achievement{
-  flex-direction: column;
-}
-
-  .phone-div{
-  font-size: 1rem;
-}
-
-.nav-btn{
-  font-size: 1rem;
-}
-
-nav{
-  gap: 4vw;
-  margin-top: 4vw;
-}
-
-
-.hero-title{
-
-  font-size: 1.3rem ;
-  height: fit-content;
-  width: fit-content;
-}
-
-.hero-subtitle{
-  width: 100%;
-  font-size: 1rem;
-  height: fit-content;
-}
-
-
-.advantages{
-
-grid-template-columns: 1fr ;
-
-}
-
-.item_advantages{
-  width: 100%;
-}
-}
 
 
 
 
 
 
-/* Высокопиксельные дисплеи */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  .logo_svg {
-    background-image: url('/assets/logo_bd@2x.svg');
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
-}
+
+
 
 /* Отключение анимаций для пользователей, которые их предпочитают не использовать */
 @media (prefers-reduced-motion: reduce) {
@@ -1331,8 +1206,375 @@ grid-template-columns: 1fr ;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+} 
+@media (max-width: 640px) {
+  .property-card {
+    height: fit-content !important;
+    max-width: 100% !important ;
+    min-width: 50% !important ;
+  }
+.working_steps{
+  width: 100vw !important;
+}
 }
 
+@media (max-width: 480px) {
+  html, body {
+    background: url("/assets/logo_bd.svg") no-repeat center 100px/300px auto fixed;
+  }
+  
+  .header {
+    width: 95%;
+    top: 5px;
+    padding: 8px 0;
+    flex-wrap: wrap;
+  }
+  
+  .logo_svg {
+    width: 100px;
+    margin-left: 15px;
+  }
+  
+  .alternative-logo {
+    height: 30px;
+  }
+  
+  .alliance-logo {
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+  
+  .phone-div {
+    font-size: 12px;
+    margin: 5px 10px;
+  }
+  
+  nav {
+    margin-left: 0;
+    gap: 15px;
+    width: 100%;
+    order: 3;
+    margin-top: 10px;
+  }
+  
+  nav a {
+    font-size: 11px;
+  }
+  
+  .nav-btn {
+    width: 90% !important;
+    font-size: 12px;
+    padding: 6px 15px;
+    margin: 5px auto;
+  }
+  
+  .hero-swiper {
+    height: 60vh;
+    min-height: 300px;
+  }
+  
+  .hero-content {
+    position: relative;
+    top: -250px;
+    width: 100% !important;
+    height: box-content !important;
+    padding: 20px 15px;
+    background: var(--dark) !important;
+    text-align: center;
+    background: var(--dark);
+  }
+  
+  .hero-title {
+    font-size: 18px;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .hero-subtitle {
+    font-size: 14px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .hero-btn {
+    font-size: 14px;
+    padding: 10px 25px;
+    margin: 0 auto;
+  }
+  
+  .properties-section {
+    padding: 30px 10px;
+  }
+  
+  .container_toggle {
+    margin-top: 30px;
+  }
+  
+  .toggle-container {
+    width: 95%;
+    padding: 3px;
+  }
+  
+  .toggle-btn {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+  
+  /* .property-card {
+    height: fit-content !important;
+  } */
+  .properties-container{
+    height: fit-content !important;
+  }
+
+
+
+  .property-card{
+    height: 600px !important;
+  }
+  
+
+  
+  .property-features {
+    grid-template-columns: 1fr;
+    font-size: 12px;
+  }
+  
+  .about_compani h3 {
+    font-size: 20px;
+    margin: 30px 0;
+  }
+  
+  .about-info p {
+    width: 95%;
+    font-size: 14px;
+  }
+  
+  .achievement {
+    gap: 20px;
+    padding: 20px 10px;
+  }
+  
+  .item {
+    width: 90%;
+  }
+  
+  .advantages {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 0 10px;
+  }
+  
+  .item_advantages {
+    width: 100%;
+  }
+  
+  .working_steps {
+    gap: 15px;
+    padding: 0 10px;
+  }
+  
+  .working_steps li {
+    width: 100%;
+    min-height: 80px;
+  }
+  
+  .about_btn {
+    margin: 20px 0;
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 90%;
+    margin: 5px 0;
+  }
+  
+  .footer {
+    min-height: 300px;
+  }
+  
+  .footer_section {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 15px;
+  }
+  
+  .contacts {
+    padding: 30px 0;
+  }
+  
+  .map_block {
+    padding-top: 20px;
+  }
+  
+  .map {
+    height: 200px;
+  }
+}
+
+/* Планшеты вертикально (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  html, body {
+    background: url("/assets/logo_bd.svg") no-repeat calc(50% + 200px) 0/600px auto fixed;
+  }
+  
+  .header {
+    width: 95%;
+    flex-wrap: wrap;
+  }
+  
+  .logo_svg {
+    width: 140px;
+    margin-left: 25px;
+  }
+  
+  nav {
+    margin-left: 0;
+    gap: 25px;
+    width: 100%;
+    order: 3;
+    margin-top: 15px;
+  }
+  
+  .nav-btn {
+    width: 80% !important;
+    margin: 10px auto;
+  }
+  
+
+  
+  .properties-container {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  
+  .advantages {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Планшеты горизонтально (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  
+  .hero-title {
+    font-size: 26px;
+    width: 40%;
+    margin-top: 580px;
+  }
+  
+  .hero-subtitle {
+    font-size: 18px;
+    width: 60%;
+  }
+  
+  nav {
+    gap: 30px;
+    margin-left: 40px;
+  }
+  
+  .logo_svg {
+    width: 160px;
+  }
+}
+
+
+
+
+
+/* Очень большие экраны (1921px+) */
+@media (min-width: 1921px) {
+  .container {
+    max-width: 2200px;
+  }
+  
+
+}
+
+/* Особые случаи - ландшафтная ориентация мобильных */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero-swiper {
+    height: 100vh;
+  }
+
+  
+  .header {
+    padding: 5px 0;
+  }
+}
+
+
+/* Исправления для сверхмалых устройств */
+@media (max-width: 360px) {
+  .logo_svg {
+    width: 80px;
+    margin-left: 10px;
+  }
+  
+  .phone-div {
+    font-size: 10px;
+  }
+  
+  nav a {
+    font-size: 10px;
+  }
+
+}
+
+/* Исправления для промежуточных разрешений */
+@media (max-width: 1100px) and (min-width: 769px) {
+  .nav-div {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  nav {
+    margin-left: 20px;
+    gap: 20px;
+  }
+  
+  .phone-div {
+    margin-left: 0;
+  }
+}
+
+@media(max-width:1070px){
+  .hero-title{
+    font-size: 1.3rem ;
+    margin-bottom: 10px;
+  }
+  .hero-subtitle{
+    font-size: 1rem ;
+  }
+}
+
+@media(max-width:835px){
+  .about-info{
+    width: 90% !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .about_compani{
+    display: flex;
+    flex-direction: column !important;
+        justify-content: center !important;
+    align-items: center !important;
+  }
+  .advantages{
+    margin-left: 20px;
+    margin-right: 20px;
+    gap: 20px !important;
+  }
+}
+
+/* print styles */
+@media print {
+  .header, .hero-btn, .about_btn {
+    display: none;
+  }
+  
+
+}
 /* Стили для активной ссылки в навигации */
 nav a.active {
 
@@ -1478,3 +1720,33 @@ nav a.active {
         font-size: 24px;
     }
 }
+
+@media (max-width: 640px) {
+.property-image{
+  height: 30vh !important;
+  img{
+    height: border-box !important;
+  }
+}
+}
+
+@media (max-width: 400px) {
+.hero-btn{
+  display: none;
+}
+}
+
+@media (max-width: 530px) {
+.phone-div{
+  display: none;
+}
+.nav-btn{
+  margin-left: 10px;
+}
+}
+
+@media (max-width: 480px){
+  .anti{
+    display: none !important;
+  }
+} 

@@ -1,0 +1,148 @@
+@media(max-width: 820px) {
+.form-row{
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 10px !important;
+
+}
+
+.form-group.full-width{
+  display: none !important;
+
+}
+.quick-app-form{
+
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+}
+
+.quick-app-btn{
+  width: 90% !important;
+display: flex !important;
+justify-content: center !important;
+align-items: center !important;
+  padding: 10px 0 !important;
+}
+
+.form-group{
+  width: 90% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+}
+
+@media(max-width:1100px) {
+ .quick-application-form{
+    width: 100% !important;
+ }  
+}
+
+
+@media(max-width:1880px) {
+ .about_section  {
+  margin-top: 120px !important;
+}
+ 
+ .real-estate-section{
+  margin-top: 180px !important;
+}
+}
+
+@media(max-width:1175px) {
+
+
+
+ .hero-section {
+    height: 527px !important;
+    margin: 0 !important;
+    padding-top: 220px !important;
+
+}
+
+ .real-estate-section{
+  margin-top: 230px !important;
+}
+
+.hero-section-adapive-none{
+    padding: 70px 0 !important;
+    padding-top: 70px !important;
+}
+.content-section{
+  margin-top: 150px !important;}
+}
+@media(max-width:1123px) {
+
+.ob-hero{
+  padding-top: 300px !important;
+    height: fit-content !important;}
+
+ /* .hero-section {
+    height: 527px !important;
+    margin: 0 !important;
+    padding-top: 220px !important;
+
+}
+
+ .real-estate-section{
+  margin-top: 230px !important;
+}
+
+.hero-section-adapive-none{
+    padding: 70px 0 !important;
+    padding-top: 70px !important;
+}
+.content-section{
+  margin-top: 150px !important;} */
+}
+@media(max-width:866px) {
+
+ .about_section  {
+  margin-top: 150px !important;
+}
+
+ .hero-section {
+    height: 527px !important;
+    margin: 0 !important;
+    padding-top: 250px !important;
+
+}
+
+ .real-estate-section{
+  margin-top: 250px !important;
+}
+
+.hero-section-adapive-none{
+    padding: 70px 0 !important;
+    padding-top: 70px !important;
+}
+.content-section{
+  margin-top: 180px !important;} 
+}
+
+@media(max-width:624px) {
+
+ .about_section  {
+  margin-top: 250px !important;
+}
+
+ .hero-section {
+    height: 527px !important;
+    margin: 0 !important;
+    padding-top: 400px !important;
+    height: fit-content !important;
+
+}
+
+ .real-estate-section{
+  margin-top: 300px !important;
+}
+}

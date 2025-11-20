@@ -510,6 +510,14 @@
     justify-content: center;
     align-items: center;
 }
+ .team-cart p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+}
+
 
 .dispflex{
     display: flex;
