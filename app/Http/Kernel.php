@@ -16,6 +16,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class, // ⬅️ ЭТА СТРОКА ДОЛЖНА БЫТЬ
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\SetCurrentSite::class,
         ],
 
         'api' => [

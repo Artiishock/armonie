@@ -1,0 +1,86 @@
+<?php
+
+namespace RyanMitchell\StatamicTranslationManager;
+
+use Illuminate\Support\Facades\Route;
+use RyanMitchell\StatamicTranslationManager\Events\TranslationsSaved;
+use RyanMitchell\StatamicTranslationManager\Http\Controllers;
+use Statamic\CP\Navigation\Nav;
+use Statamic\Facades\CP\Nav as NavAPI;
+use Statamic\Facades\Permission;
+use Statamic\Providers\AddonServiceProvider;
+use Statamic\Statamic;
+
+class ServiceProvider extends AddonServiceProvider
+{
+    public function bootAddon()
+    {
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'statamic-translation-manager');
+
+        $this->publishes([
+            __DIR__.'/../config/statamic-translations.php' => config_path('statamic-translations.php')
+        ], 'config');
+
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'statamic-translation-manager');
+
+        $this->publishes([
+            __DIR__.'/../resources/lang' => $this->app->langPath('vendor/statamic-translation-manager'),
+        ]);
+
+        $this->bootNav();
+        $this->bootPermissions();
+        $this->bootListeners();
+        $this->registerRoutes();
+    }
+
+    public function register()
+    {
+        $this->app->singleton('translation-manager', function () {
+            return app(TranslationsManager::class);
+        });
+
+        $this->mergeConfigFrom(__DIR__.'/../config/statamic-translations.php', 'statamic-translations');
+    }
+
+    private function bootNav()
+    {
+        NavAPI::extend(fn (Nav $nav) => $nav
+            ->content(__('statamic-translation-manager::default.translations'))
+            ->section('Tools')
+            ->can('manage translations')
+            ->route('translation-manager.index')
+            ->icon('content-writing')
+        );
+    }
+
+    private function bootPermissions()
+    {
+        Permission::register('manage translations')
+            ->label(__('statamic-translation-manager::default.manage_translations'));
+    }
+
+    private function bootListeners()
+    {
+        if (! config('statamic.git.enabled')) {
+            return;
+        }
+
+        \Statamic\Facades\Git::listen(TranslationsSaved::class);
+
+    }
+
+    private function registerRoutes()
+    {
+        Statamic::pushCpRoutes(fn () => Route::name('translation-manager.')->prefix('translations')->group(function () {
+            Route::get('/', [Controllers\TranslationController::class, 'index'])->name('index');
+            Route::get('/locale/{locale}/edit', [Controllers\TranslationController::class, 'edit'])->name('edit');
+            Route::post('locale/{locale}/update', [Controllers\TranslationController::class, 'update'])->name('update');
+
+            Route::get('/blueprints', [Controllers\BlueprintController::class, 'index'])->name('blueprints');
+            Route::get('/blueprints/{locale}/add', [Controllers\BlueprintController::class, 'add'])->name('blueprints.add');
+
+            Route::get('/templates', [Controllers\TemplateController::class, 'index'])->name('templates');
+            Route::get('/templates/{locale}/add', [Controllers\TemplateController::class, 'add'])->name('templates.add');
+        }));
+    }
+}
