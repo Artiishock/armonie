@@ -37,7 +37,7 @@ html, body {
   font-size: 14px;
   font-weight: 400;
   background: url("/assets/logo_bd.svg") no-repeat calc(50% + 426px) 0/853px auto fixed;
-
+  margin-top: 50px;
 }
 
 h1, h2, h3, h4, h5 {
@@ -1750,3 +1750,4 @@ nav a.active {
     display: none !important;
   }
 } 
+
