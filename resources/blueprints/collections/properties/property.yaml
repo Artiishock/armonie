@@ -154,6 +154,13 @@ tabs:
               container: assets
               type: assets
               display: Assets-array
+          -
+            handle: cod_obgect
+            field:
+              type: text
+              display: 'COD obgect'
+      -
+        display: 'New Section'
   sidebar:
     display: Sidebar
     sections:
