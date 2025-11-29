@@ -45,6 +45,7 @@ Route::post('/api/telegram-property', function (Request $request) {
             'date_use' => 'required|string',
             'apartment_area' => 'required|integer',
             'description' => 'required|string',
+            'cod_obgect' => 'nullable|string|max:255',
             'images' => 'sometimes|array',
             'images.*' => 'sometimes|url',
             'assets_array' => 'sometimes|array',
@@ -130,6 +131,7 @@ Route::post('/api/telegram-property', function (Request $request) {
                 'date_use' => $validated['date_use'],
                 'apartment_area' => $validated['apartment_area'],
                 'description' => $validated['description'],
+                'cod_obgect' => $validated['cod_obgect'] ?? null,
                 'images' => $savedImages,
                 'assets_array' => $savedAssetsArray,
                 'published' => true
@@ -668,7 +670,8 @@ Route::post('/submit-application', function (Request $request) {
             'property_id' => 'nullable|string',
             'property_title' => 'nullable|string|max:255',
             'property_price' => 'nullable|string|max:100',
-            'property_type' => 'nullable|string|in:rent,buy'
+            'property_type' => 'nullable|string|in:rent,buy',
+             'cod_obgect' => 'nullable|string|max:255'
         ]);
         
         Log::info('✅ Данные валидны', $validated);
@@ -693,6 +696,11 @@ Route::post('/submit-application', function (Request $request) {
                 $telegramMessage .= "🏠 *Объект:* {$validated['property_title']}\n";
                 $telegramMessage .= "💰 *Цена:* {$validated['property_price']} €\n";
                 $telegramMessage .= "🔖 *Тип:* {$propertyType}\n";
+                
+                if (!empty($validated['cod_obgect'])) {
+                    $telegramMessage .= "🆔 *Код объекта:* {$validated['cod_obgect']}\n";
+                }
+                
                 if (!empty($validated['property_id'])) {
                     $telegramMessage .= "🆔 *ID объекта:* {$validated['property_id']}\n";
                 }

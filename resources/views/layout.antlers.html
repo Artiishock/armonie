@@ -161,6 +161,7 @@
                 <input type="hidden" id="property_title" name="property_title">
                 <input type="hidden" id="property_price" name="property_price">
                 <input type="hidden" id="property_type" name="property_type">
+                <input type="hidden" id="cod_obgect" name="cod_obgect">
                 
                 <div id="propertyInfo" class="app-property-info">
                     <h3 class="app-property-title" id="propertyInfoTitle"></h3>
@@ -389,6 +390,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('property_title').value = propertyData.title || '';
             document.getElementById('property_price').value = propertyData.price || '';
             document.getElementById('property_type').value = propertyData.type || '';
+            document.getElementById('cod_obgect').value = propertyData.cod_obgect || '';
             
             // Показываем информацию об объекте
             propertyInfoTitle.textContent = propertyData.title || '';
@@ -411,7 +413,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('property_title').value = '';
             document.getElementById('property_price').value = '';
             document.getElementById('property_type').value = '';
-            
+            document.getElementById('cod_obgect').value = '';
             // Скрываем информацию об объекте
             propertyInfo.style.display = 'none';
             
