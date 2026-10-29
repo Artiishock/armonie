@@ -1,1 +1,10 @@
 node_modules
+
+# Secrets and local config: never commit
+.env
+.env.backup
+.env.production
+.env.*.local
+
+# Runtime logs
+storage/logs/*.log
